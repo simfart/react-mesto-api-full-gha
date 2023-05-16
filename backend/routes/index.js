@@ -7,6 +7,12 @@ const { createUser, login, logout } = require('../controllers/user');
 const auth = require('../middlewares/auth');
 const { errCreateUser, errLogin } = require('../middlewares/error-celebrate');
 
+router.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 router.post('/signin', errLogin, login);
 router.post('/signup', errCreateUser, createUser);
 router.get('/signout', logout);
