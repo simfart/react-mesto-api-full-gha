@@ -1,0 +1,7 @@
+.form-auth__sing-in {
+  text-decoration: none;
+  color: #ffffff;
+}
+.form-auth__sing-in:hover {
+  opacity: 0.6;
+}

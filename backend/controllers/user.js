@@ -2,13 +2,12 @@ const bcrypt = require('bcryptjs');
 const JWT = require('jsonwebtoken');
 const User = require('../models/user');
 
-const SECRET_KEY = 'SECRET';
-
+const { NODE_ENV, JWT_SECRET = 'JWT_SECRET' } = process.env;
 const { NotFoundError, DuplicateKeyError, ValidationError } = require('../utils/errors');
 
 const getUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.send({ data: users }))
+    .then((users) => res.send(users))
     .catch(next);
 };
 
@@ -19,7 +18,7 @@ const getUsersMe = (req, res, next) => {
       if (!user) {
         next(new NotFoundError('Нет пользователя с таким id'));
       }
-      res.send({ data: user });
+      res.send(user);
     })
     .catch(next);
 };
@@ -30,7 +29,7 @@ const getUserId = (req, res, next) => {
     .findById(userId)
     .orFail(new NotFoundError('Нет пользователя с таким id'))
     .then((user) => {
-      res.send({ data: user });
+      res.send(user);
     })
     .catch(next);
 };
@@ -42,7 +41,7 @@ const updateUser = (req, res, next, data) => {
   })
     .orFail(new NotFoundError('Нет пользователя с таким id'))
     .then((user) => {
-      res.send({ data: user });
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -93,8 +92,12 @@ const login = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       // создадим токен
-      const payload = { _id: user.id, email: user.email };
-      const token = JWT.sign(payload, SECRET_KEY, { expiresIn: '7d' });
+      const token = JWT.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        { expiresIn: '7d' },
+      );
+
       // вернём токен
       res
         .cookie('jwt', token, {

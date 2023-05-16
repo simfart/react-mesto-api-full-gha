@@ -5,7 +5,7 @@ const { AccessError, NotFoundError, ValidationError } = require('../utils/errors
 const getCard = (req, res, next) => {
   Card.find({})
     .populate(['owner', 'likes'])
-    .then((cards) => res.status(200).send({ data: cards }))
+    .then((cards) => res.status(200).send(cards))
     .catch(next);
 };
 
@@ -14,7 +14,7 @@ const createCard = (req, res, next) => {
   const owner = req.user._id;
 
   Card.create({ name, link, owner })
-    .then((card) => res.status(201).send({ data: card }))
+    .then((card) => res.status(201).send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ValidationError(' Переданы некорректные данные при создании карточки. '));
@@ -47,7 +47,7 @@ const likeDeleteCard = (req, res, next, keyMethod) => {
     )
     .orFail(new NotFoundError('Карточка с указанным _id не найдена'))
     .then((card) => {
-      res.send({ data: card });
+      res.send(card);
     })
     .catch(next);
 };

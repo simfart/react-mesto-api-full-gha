@@ -1,0 +1,11 @@
+.popup__error {
+  font-size: 12px;
+  line-height: 15px;
+  color: #ff0000;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.popup__error:empty:before {
+  content: "\00a0";
+}

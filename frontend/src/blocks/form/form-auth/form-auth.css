@@ -1,0 +1,7 @@
+.form-auth {
+  display: flex;
+  flex-direction: column;
+  margin: 60px auto 216px;
+  max-width: 358px;
+  align-items: center;
+}

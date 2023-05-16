@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
@@ -12,6 +13,8 @@ const app = express();
 
 app.use(cors({
   origin: [
+    'http://localhost:3001',
+    'http://localhost:3000',
     'http://127.0.0.1:27017',
     'http://simfart.nomoredomains.monster',
     'https://simfart.nomoredomains.monster',
@@ -33,4 +36,7 @@ app.use(errorLogger); // подключаем логгер ошибок
 app.use(errors());
 app.use(errorHandler);
 
-app.listen(PORT);
+// app.listen(PORT);
+app.listen(PORT, () => { // Устанавливаем слушатель порта!
+  console.log(`Сервер запущен на порту: ${PORT}, в ${new Date()}`); // Проверка сервера
+});

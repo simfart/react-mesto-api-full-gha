@@ -1,0 +1,12 @@
+.form-auth__button {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 2px;
+  color: #000000;
+  border: 0;
+  padding: 0;
+  height: 50px;
+  font-size: 18px;
+  line-height: 22px;
+  margin-top: 216px;
+}
