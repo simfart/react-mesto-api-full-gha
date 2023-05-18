@@ -8,8 +8,8 @@
 
 ## Ссылки на проект
 
-IP-адрес x.x.x.x
+IP 51.250.90.139
 
-Frontend https://...
+Frontend https://simfart.nomoredomains.monster
 
-Backend https://...
+Backend https://api.simfart.nomoredomains.monster
