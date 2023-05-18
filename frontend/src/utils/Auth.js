@@ -25,7 +25,7 @@ function request(url, method, body, token) {
   return fetch(`${BASE_URL}${url}`, config).then(getResponseData);
 }
 
-export const BASE_URL = "http://localhost:3000";
+export const BASE_URL = "http://api.simfart.nomoredomains.monster";
 export const register = (data) => {
   return request("/signup", "POST", {
     email: data.email,
