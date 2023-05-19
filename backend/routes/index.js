@@ -15,7 +15,7 @@ router.get('/crash-test', () => {
 
 router.post('/signin', errLogin, login);
 router.post('/signup', errCreateUser, createUser);
-router.get('/signout', logout);
+router.get('/signout', auth, logout);
 
 router.use('/users', auth, usersRoutes);
 router.use('/cards', auth, cardsRoutes);

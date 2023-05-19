@@ -1,7 +1,6 @@
 class DuplicateKeyError extends Error {
-  constructor() {
-    super();
-    this.message = 'E-mail уже зарегестрирован';
+  constructor(message = 'E-mail уже зарегестрирован') {
+    super(message);
     this.statusCode = 409;
   }
 }

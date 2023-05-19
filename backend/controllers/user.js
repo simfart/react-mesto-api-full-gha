@@ -17,6 +17,7 @@ const getUsersMe = (req, res, next) => {
     .then((user) => {
       if (!user) {
         next(new NotFoundError('Нет пользователя с таким id'));
+        return;
       }
       res.send(user);
     })
