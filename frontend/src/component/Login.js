@@ -48,7 +48,7 @@ function Login({ handleLogin }) {
             type="password"
             className={`form-auth__item ${errors?.password && "form-auth__item_error"}`}
             name="password"
-            minLength="3"
+            minLength="8"
             maxLength="200"
             placeholder='Пароль'
             required

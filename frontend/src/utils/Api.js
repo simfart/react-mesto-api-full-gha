@@ -27,7 +27,6 @@ class Api {
       method: "POST",
       credentials: "include",
       headers: this._headers,
-
       body: JSON.stringify({
         name: data.name,
         link: data.link,
