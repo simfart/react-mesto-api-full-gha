@@ -7,7 +7,7 @@ try {
   console.log('\x1b[31m%s\x1b[0m', `
 Надо исправить. В продакшне используется тот же
 секретный ключ, что и в режиме разработки.
-`);
+`, payload);
 } catch (err) {
   if (err.name === 'JsonWebTokenError' && err.message === 'invalid signature') {
     console.log(

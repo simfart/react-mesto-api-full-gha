@@ -16,6 +16,8 @@ app.use(cors({
   origin: [
     'http://localhost:3000',
     'http://127.0.0.1:27017',
+    'http://api.simfart.nomoredomains.monster',
+    'https://api.simfart.nomoredomains.monster',
     'http://simfart.nomoredomains.monster',
     'https://simfart.nomoredomains.monster',
   ],
