@@ -15,7 +15,6 @@ function Main({
   signOut,
 }) {
   const currentUser = React.useContext(CurrentUserContext);
-
   return (
     <>
       <Header

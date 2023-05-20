@@ -112,7 +112,9 @@ function App() {
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some((user) => user._id === currentUser._id||user === currentUser._id);
+    const isLiked = card.likes.some(
+      (user) => user._id === currentUser._id || user === currentUser._id
+    );
     // Отправляем запрос в API и получаем обновлённые данные карточки
     api
       .setLikes(card._id, !isLiked)
@@ -200,62 +202,67 @@ function App() {
       });
   }
   // Региcтрация
-  const handleRegister = useCallback((values) => {
-    auth
-      .register(values)
-      .then((res) => {
-        setIsRegistered(true);
-        openInfoTooltip();
-        navigate("/singin", { replace: true });
-      })
-      .catch((err) => {
-        setIsRegistered(false);
-        openInfoTooltip();
-      })
-      .finally(() => {
-        setIsLoad(false);
-      });
-  }, [openInfoTooltip]);
+  const handleRegister = useCallback(
+    (values) => {
+      auth
+        .register(values)
+        .then((res) => {
+          setIsRegistered(true);
+          openInfoTooltip();
+          navigate("/singin", { replace: true });
+        })
+        .catch((err) => {
+          setIsRegistered(false);
+          openInfoTooltip();
+        })
+        .finally(() => {
+          setIsLoad(false);
+        });
+    },
+    [openInfoTooltip]
+  );
 
   // Вход
-  const handleLogin = useCallback(async (values) => {
-    try {
-      const res = await auth.authorize(values.email, values.password);
-      if (!res) {
-        throw new Error("Ошибка аутентификации");
+  const handleLogin = useCallback(
+    async (values) => {
+      try {
+        const res = await auth.authorize(values.email, values.password);
+        if (!res) {
+          throw new Error("Ошибка аутентификации");
+        }
+        if (res.token) {
+          localStorage.setItem("jwt", res.token);
+          setLoggedIn(true);
+          setUserEmail(values.email);
+          navigate("/", { replace: true });
+        }
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setIsLoad(false);
       }
-      if (res.token) {
-        localStorage.setItem("jwt", res.token);
-        setLoggedIn(true);
-        setUserEmail(values.email);
-        navigate("/", { replace: true });
-      }
-    } catch (e) {
-      console.log(e);
-    } finally {
-      setIsLoad(false);
-    }
-  }, [navigate]);
+    },
+    [navigate]
+  );
 
   // Выход
-  const handleLogout = useCallback(async (values) => {
-    try {
-      const res = await auth.logout();
+  const handleLogout = useCallback(
+    async (values) => {
+      localStorage.removeItem("jwt");
+      setLoggedIn(false);
+      setUserEmail("");
+      const res = await auth.logout().catch((err) => {
+        console.log(err);
+        return true;
+      });
+
       if (!res) {
         throw new Error("Ошибка : Выйти не получилось");
       }
-      if (res.token) {
-        localStorage.removeItem("jwt");
-        setLoggedIn(false);
-        setUserEmail('');
-        navigate("/singin", { replace: true });
-      }
-    } catch (e) {
-      console.log(e);
-    } finally {
       setIsLoad(false);
-    }
-  }, [ navigate]);
+    },
+    [navigate]
+  );
 
   const handleTokenCheck = useCallback(() => {
     const jwt = localStorage.getItem("jwt");
@@ -307,7 +314,7 @@ function App() {
                         onCardLike={handleCardLike}
                         cards={cards}
                         email={userEmail}
-                        signOut={ handleLogout }
+                        signOut={handleLogout}
                       />
                       <Footer />
                     </>
