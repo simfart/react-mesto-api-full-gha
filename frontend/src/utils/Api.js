@@ -82,7 +82,7 @@ class Api {
 }
 const token = localStorage.getItem("jwt");
 const api = new Api({
-  baseUrl: "http://localhost:3000",
+  baseUrl: "https://api.simfart.nomoredomains.monster",
   credentials: "include",
   headers: {
     authorization: `Bearer ${token}`,
