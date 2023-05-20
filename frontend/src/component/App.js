@@ -215,7 +215,7 @@ function App() {
       .finally(() => {
         setIsLoad(false);
       });
-  }, []);
+  }, [openInfoTooltip]);
 
   // Вход
   const handleLogin = useCallback(async (values) => {
@@ -235,17 +235,28 @@ function App() {
     } finally {
       setIsLoad(false);
     }
-  }, []);
+  }, [navigate]);
 
-  //Выход
-  const signOut = () => {
-    localStorage.removeItem("jwt");
-    auth.logout().catch((err) => {
-      console.log(err);
-    });
-  };
+  // Выход
+  const handleLogout = useCallback(async (values) => {
+    try {
+      const res = await auth.logout();
+      if (!res) {
+        throw new Error("Ошибка : Выйти не получилось");
+      }
+      if (res.token) {
+        localStorage.removeItem("jwt");
+        setLoggedIn(false);
+        setUserEmail('');
+        navigate("/singin", { replace: true });
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoad(false);
+    }
+  }, [ navigate]);
 
-  // Проверка токена
   const handleTokenCheck = useCallback(() => {
     const jwt = localStorage.getItem("jwt");
     if (jwt) {
@@ -296,7 +307,7 @@ function App() {
                         onCardLike={handleCardLike}
                         cards={cards}
                         email={userEmail}
-                        signOut={signOut}
+                        signOut={ handleLogout }
                       />
                       <Footer />
                     </>
