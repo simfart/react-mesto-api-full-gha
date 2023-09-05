@@ -224,8 +224,9 @@ function App() {
 
   // Вход
   const handleLogin = useCallback(
-    setIsLoad(true),
+    
     async (values) => {
+      setIsLoad(true)
       try {
         const res = await auth.authorize(values.email, values.password);
         if (!res) {

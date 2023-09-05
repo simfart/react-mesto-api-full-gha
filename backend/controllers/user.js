@@ -105,6 +105,9 @@ const login = (req, res, next) => {
         // token - наш JWT токен, который мы отправляем
           maxAge: 3600000,
           httpOnly: true,
+          sameSite: 'none',
+          SameSite: 'None',
+          secure: true,
         });
       res.send({ token });
     })
@@ -112,8 +115,14 @@ const login = (req, res, next) => {
 };
 
 const logout = (req, res) => {
-  res.clearCookie('jwt').send({ message: 'Выход' });
+  res.clearCookie('jwt', {
+    sameSite: 'none',
+    SameSite: 'None',
+    secure: true,
+  }).send({ message: 'Выход' });
 };
+
+
 
 module.exports = {
   createUser,
