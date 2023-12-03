@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import Main from "./Main";
 import Footer from "./Footer";
+import Navbar from "./Navbar";
 import api from "../utils/Api";
 import * as auth from "../utils/Auth";
 import ImagePopup from "./ImagePopup";
@@ -229,6 +230,7 @@ function App() {
       setIsLoad(true)
       try {
         const res = await auth.authorize(values.email, values.password);
+     
         if (!res) {
           throw new Error("Ошибка аутентификации");
         }
@@ -236,6 +238,7 @@ function App() {
           localStorage.setItem("jwt", res.token);
           setLoggedIn(true);
           setUserEmail(values.email);
+          
           navigate("/", { replace: true });
         }
       } catch (e) {
@@ -275,7 +278,7 @@ function App() {
           if (res) {
             setLoggedIn(true);
             navigate("/", { replace: true });
-            setUserEmail(res.email);
+            setUserEmail(res.data.email);
           }
         })
         .catch((err) => {
@@ -299,6 +302,7 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="body">
         <div className="page">
+          {/* <div><Navbar/></div> */}
           <Routes>
             <Route
               path="/"

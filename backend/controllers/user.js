@@ -122,8 +122,6 @@ const logout = (req, res) => {
   }).send({ message: 'Выход' });
 };
 
-
-
 module.exports = {
   createUser,
   getUserId,
