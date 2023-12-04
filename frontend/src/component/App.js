@@ -278,7 +278,7 @@ function App() {
           if (res) {
             setLoggedIn(true);
             navigate("/", { replace: true });
-            setUserEmail(res.data.email);
+            setUserEmail(res.email);
           }
         })
         .catch((err) => {
@@ -321,6 +321,7 @@ function App() {
                         cards={cards}
                         email={userEmail}
                         signOut={handleLogout}
+                        loggedIn={loggedIn}
                       />
                       <Footer />
                     </>
@@ -330,11 +331,11 @@ function App() {
             />
             <Route
               path="/singup"
-              element={<Register onAddAccount={handleRegister} />}
+              element={<Register onAddAccount={handleRegister} loggedIn={loggedIn} />}
             />
             <Route
               path="/singin"
-              element={<Login handleLogin={handleLogin} />}
+              element={<Login handleLogin={handleLogin} loggedIn={loggedIn} />}
             />
           </Routes>
           <EditProfilePopup

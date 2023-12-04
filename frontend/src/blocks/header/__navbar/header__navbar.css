@@ -1,0 +1,11 @@
+@media screen and (max-width: 600px) {
+  .header__navbar {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .header__navbar_auth {
+    display: inline;
+  }
+}

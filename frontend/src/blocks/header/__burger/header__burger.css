@@ -1,5 +1,7 @@
 .header__burger {
   display: none;
+  width: 20px;
+  height: 20px;
 }
 
 @media screen and (max-width: 600px) {

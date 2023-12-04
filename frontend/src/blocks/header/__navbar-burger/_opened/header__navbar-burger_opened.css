@@ -1,0 +1,4 @@
+.header__navbar-burger_opened {
+  max-height: 142px;
+  transition: max-height 0.25s ease-in;
+}

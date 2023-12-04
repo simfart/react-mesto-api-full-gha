@@ -13,3 +13,12 @@
 .header__button:hover {
   opacity: 0.6;
 }
+
+@media screen and (max-width: 600px) {
+  .header__button {
+    padding-right: 30px;
+    color: #fff;
+    font-size: 14px;
+    line-height: normal;
+  }
+}

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Header from "./Header";
 import { useForm } from "../hooks/useForm";
 
-function Login({ handleLogin }) {
+function Login({ handleLogin, loggedIn }) {
 
   const { values, handleChange, setValues, isValid, setIsValid, errors, setErrors } = useForm({});
 
@@ -26,6 +26,7 @@ function Login({ handleLogin }) {
       <Header
         adress={'/singup'}
         buttonText={'Регистрация'}
+        loggedIn={loggedIn}
       />
       <form className="form-auth" onSubmit={handleSubmit} noValidate>
         <h2 className="popup__title ">Вход</h2>

@@ -3,8 +3,9 @@ import Header from "./Header";
 import { useForm } from "../hooks/useForm";
 import { Link } from "react-router-dom";
 
-function Register({ onAddAccount, login }) {
+function Register({ onAddAccount, loggedIn }) {
   const { values, handleChange, setValues, isValid, setIsValid, errors, setErrors } = useForm({});
+  console.log("register loggedIn", loggedIn)
 
   function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
@@ -27,6 +28,7 @@ function Register({ onAddAccount, login }) {
       <Header
         adress={'/singin'}
         buttonText={'Войти'}
+        loggedIn={loggedIn}
       />
       <form className="form-auth" onSubmit={handleSubmit} noValidate>
         <h2 className="popup__title ">Регистрация</h2>

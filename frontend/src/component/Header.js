@@ -1,21 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import headerLogo from "../images/logo.svg";
 import Navbar from "./Navbar";
 import burgerIcon from "../images/burger.png";
 import closeIcon from "../images/CloseIcon.svg";
 
-function Header({ adress, buttonClick, buttonText, email }) {
+function Header({ adress, buttonClick, buttonText, email, loggedIn }) {
   const [nav, setNav] = useState(false);
+
+  useEffect(() => {
+    function closeByEscape(evt) {
+      if (evt.key === "Escape") {
+        setNav(!nav);
+      }
+    }
+    function clickOverPopups(e) {
+      if (!e.target.closest(".header__navbar-menu")) {
+        setNav(!nav);
+      }
+    }
+    if (nav) {
+      // навешиваем только при открытии
+      document.addEventListener("keydown", closeByEscape);
+      document.addEventListener("mousedown", clickOverPopups);
+      return () => {
+        document.removeEventListener("keydown", closeByEscape);
+        document.removeEventListener("mousedown", clickOverPopups);
+      };
+    }
+  }, [nav]);
 
   return (
     <header className="header">
       <div
-        className={`header__navbar-burger ${
-          nav ? "header__navbar-burger_opened" : ""
-        }`}
-        // className="header__navbar-burger"
+        className={`header__navbar-burger ${nav ? "header__navbar-burger_opened" : ""
+          }`}
+
       >
-        <div className="header__navbar-burger_open">
+        <div className="header__navbar-burger_menu">
           <Navbar
             adress={adress}
             email={email}
@@ -26,7 +47,7 @@ function Header({ adress, buttonClick, buttonText, email }) {
       </div>
       <div className="header__conteiner">
         <img className="header__logo" src={headerLogo} alt="Логотип Место" />
-        <div className="header__navbar">
+        <div className={`header__navbar ${loggedIn ? "" : "header__navbar_auth"} `}>
           <Navbar
             adress={adress}
             email={email}
@@ -34,26 +55,16 @@ function Header({ adress, buttonClick, buttonText, email }) {
             buttonText={buttonText}
           />
         </div>
-
-        <img
-          onClick={() => setNav(!nav)}
+        {loggedIn && <img
+          onClick={() => setNav(!nav)
+          }
           className="header__burger"
           src={nav ? closeIcon : burgerIcon}
           alt="Бургер меню"
-        />
+        />}
       </div>
     </header>
   );
 }
 
 export default Header;
-
-{
-  /* <header className="header">
-<img className="header__logo" src={headerLogo} alt="Логотип Место" />
-<div className="header__conteiner" >
-  <p className="header__email">{email}</p>
-  <Link to={adress} > <button onClick={buttonClick} className="header__button" type="button" aria-label={buttonText}>{buttonText}</button></Link>
-</div>
-</header> */
-}
