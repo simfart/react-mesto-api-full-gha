@@ -1,23 +1,4 @@
 .header__button {
-  text-align: center;
-  border: none;
-  background-color: rgba(0, 0, 0, 0);
-  color: #a9a9a9;
-  cursor: pointer;
-  line-height: 22px;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-}
-
-.header__button:hover {
-  opacity: 0.6;
-}
-
-@media screen and (max-width: 600px) {
-  .header__button {
-    padding-right: 30px;
-    font-size: 14px;
-    line-height: normal;
-  }
+  border: 0;
+  padding: 0;
 }

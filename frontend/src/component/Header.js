@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import headerLogo from "../images/logo.svg";
 import Navbar from "./Navbar";
@@ -8,24 +8,26 @@ import closeIcon from "../images/CloseIcon.svg";
 function Header({ adress, buttonClick, buttonText, email, loggedIn }) {
   const [nav, setNav] = useState(false);
 
+  const closeByEscapeHandler = useCallback((evt) => {
+    if (evt.key === "Escape") {
+      setNav(false);
+    }
+  }, []);
+
+  const clickOverPopupsHandler = useCallback((evt) => {
+    if (!evt.target.closest(".header__navbar-menu")) {
+      setNav(false);
+    }
+  }, []);
+
   useEffect(() => {
-    function closeByEscape(evt) {
-      if (evt.key === "Escape") {
-        setNav(!nav);
-      }
-    }
-    function clickOverPopups(e) {
-      if (!e.target.closest(".header__navbar-menu")) {
-        setNav(!nav);
-      }
-    }
     if (nav) {
       // навешиваем только при открытии
-      document.addEventListener("keydown", closeByEscape);
-      document.addEventListener("mousedown", clickOverPopups);
+      document.addEventListener("keydown", closeByEscapeHandler);
+      document.addEventListener("mousedown", clickOverPopupsHandler);
       return () => {
-        document.removeEventListener("keydown", closeByEscape);
-        document.removeEventListener("mousedown", clickOverPopups);
+        document.removeEventListener("keydown", closeByEscapeHandler);
+        document.removeEventListener("mousedown", clickOverPopupsHandler);
       };
     }
   }, [nav]);
@@ -44,8 +46,12 @@ function Header({ adress, buttonClick, buttonText, email, loggedIn }) {
             </div>
             <button
               className="header__button"
-              onClick={() => setNav(!nav)}
+              onClick={() => {
+                console.log("клик");
+                setNav(!nav);
+              }}
               aria-label="Меню"
+              type="button"
             >
               <img
                 className="header__burger"
@@ -60,7 +66,7 @@ function Header({ adress, buttonClick, buttonText, email, loggedIn }) {
               {" "}
               <button
                 onClick={buttonClick}
-                className="header__button"
+                className="header__link"
                 type="button"
                 aria-label={buttonText}
               >

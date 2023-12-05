@@ -11,7 +11,7 @@ const Navbar = ({ email, adress, buttonClick, buttonText }) => {
         <li>
           <button
             onClick={buttonClick}
-            className="header__button"
+            className="header__link"
             type="button"
             aria-label="Выйти"
           >

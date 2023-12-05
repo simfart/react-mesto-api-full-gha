@@ -12,6 +12,7 @@ const { PORT, MONGO_ADRESS } = require('./utils/config');
 const app = express();
 mongoose.connect(MONGO_ADRESS);
 
+
 app.use(cors({
   origin: [
     'http://localhost:3000',
