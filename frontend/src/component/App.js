@@ -225,12 +225,12 @@ function App() {
 
   // Вход
   const handleLogin = useCallback(
-    
+
     async (values) => {
       setIsLoad(true)
       try {
         const res = await auth.authorize(values.email, values.password);
-     
+
         if (!res) {
           throw new Error("Ошибка аутентификации");
         }
@@ -238,7 +238,7 @@ function App() {
           localStorage.setItem("jwt", res.token);
           setLoggedIn(true);
           setUserEmail(values.email);
-          
+
           navigate("/", { replace: true });
         }
       } catch (e) {
@@ -302,7 +302,6 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="body">
         <div className="page">
-          {/* <div><Navbar/></div> */}
           <Routes>
             <Route
               path="/"

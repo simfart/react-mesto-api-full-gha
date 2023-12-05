@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import headerLogo from "../images/logo.svg";
 import Navbar from "./Navbar";
 import burgerIcon from "../images/burger.png";
@@ -31,7 +32,46 @@ function Header({ adress, buttonClick, buttonText, email, loggedIn }) {
 
   return (
     <header className="header">
-      <div
+      <div className={`header__navbar ${nav ? "header__navbar_opened" : ""}`}>
+        <Navbar email={email} buttonClick={buttonClick} />
+      </div>
+      <div className="header__conteiner">
+        <img className="header__logo" src={headerLogo} alt="Логотип Место" />
+        {loggedIn ? (
+          <>
+            <div className="header__menu">
+              <Navbar email={email} buttonClick={buttonClick} />
+            </div>
+            <button
+              className="header__button"
+              onClick={() => setNav(!nav)}
+              aria-label="Меню"
+            >
+              <img
+                className="header__burger"
+                src={nav ? closeIcon : burgerIcon}
+                alt="Бургер меню"
+              />
+            </button>
+          </>
+        ) : (
+          <div>
+            <Link to={adress}>
+              {" "}
+              <button
+                onClick={buttonClick}
+                className="header__button"
+                type="button"
+                aria-label={buttonText}
+              >
+                {buttonText}
+              </button>
+            </Link>
+          </div>
+        )}
+      </div>
+
+      {/* <div
         className={`header__navbar-burger ${nav ? "header__navbar-burger_opened" : ""
           }`}
 
@@ -44,8 +84,8 @@ function Header({ adress, buttonClick, buttonText, email, loggedIn }) {
             buttonText={buttonText}
           />
         </div>
-      </div>
-      <div className="header__conteiner">
+      </div> */}
+      {/* <div className="header__conteiner">
         <img className="header__logo" src={headerLogo} alt="Логотип Место" />
         <div className={`header__navbar ${loggedIn ? "" : "header__navbar_auth"} `}>
           <Navbar
@@ -62,7 +102,7 @@ function Header({ adress, buttonClick, buttonText, email, loggedIn }) {
           src={nav ? closeIcon : burgerIcon}
           alt="Бургер меню"
         />}
-      </div>
+      </div> */}
     </header>
   );
 }

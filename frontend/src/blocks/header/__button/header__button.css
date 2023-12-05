@@ -17,7 +17,6 @@
 @media screen and (max-width: 600px) {
   .header__button {
     padding-right: 30px;
-    color: #fff;
     font-size: 14px;
     line-height: normal;
   }
