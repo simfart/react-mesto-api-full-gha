@@ -8,7 +8,7 @@ Cервис Mesto: интерактивная страница, куда мож�
 
 ## Demo
 
-Fontend:
+Frontend:
 
 [mesto-demo.surge.sh](https://mesto-demo.surge.sh/)
 
