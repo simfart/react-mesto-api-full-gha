@@ -51,7 +51,7 @@ Backend:
 
 ## Screenshots
 
-![Desktop app screenshot](./screenshot/mesto.jpg)
+![Desktop app screenshot](./screenshot/mesto_desk.png)
 
 ## Run Locally
 
