@@ -1,0 +1,8 @@
+.navbar__link {
+}
+
+@media screen and (max-width: 600px) {
+  .navbar__link {
+    padding-right: 0;
+  }
+}

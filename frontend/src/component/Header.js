@@ -24,10 +24,13 @@ function Header({ adress, buttonClick, buttonText, email, loggedIn }) {
     if (nav) {
       // навешиваем только при открытии
       document.addEventListener("keydown", closeByEscapeHandler);
-      document.addEventListener("mousedown", clickOverPopupsHandler);
+      setTimeout(() => {
+        document.addEventListener("click", clickOverPopupsHandler);
+      });
+
       return () => {
         document.removeEventListener("keydown", closeByEscapeHandler);
-        document.removeEventListener("mousedown", clickOverPopupsHandler);
+        document.removeEventListener("click", clickOverPopupsHandler);
       };
     }
   }, [nav]);
@@ -44,21 +47,12 @@ function Header({ adress, buttonClick, buttonText, email, loggedIn }) {
             <div className="header__menu">
               <Navbar email={email} buttonClick={buttonClick} />
             </div>
-            <button
-              className="header__button"
-              onClick={() => {
-                console.log("клик");
-                setNav(!nav);
-              }}
-              aria-label="Меню"
-              type="button"
-            >
-              <img
-                className="header__burger"
-                src={nav ? closeIcon : burgerIcon}
-                alt="Бургер меню"
-              />
-            </button>
+            <img
+              className="header__burger"
+              onClick={() => setNav(!nav)}
+              src={nav ? closeIcon : burgerIcon}
+              alt="Бургер меню"
+            />
           </>
         ) : (
           <div>
@@ -76,39 +70,6 @@ function Header({ adress, buttonClick, buttonText, email, loggedIn }) {
           </div>
         )}
       </div>
-
-      {/* <div
-        className={`header__navbar-burger ${nav ? "header__navbar-burger_opened" : ""
-          }`}
-
-      >
-        <div className="header__navbar-burger_menu">
-          <Navbar
-            adress={adress}
-            email={email}
-            buttonClick={buttonClick}
-            buttonText={buttonText}
-          />
-        </div>
-      </div> */}
-      {/* <div className="header__conteiner">
-        <img className="header__logo" src={headerLogo} alt="Логотип Место" />
-        <div className={`header__navbar ${loggedIn ? "" : "header__navbar_auth"} `}>
-          <Navbar
-            adress={adress}
-            email={email}
-            buttonClick={buttonClick}
-            buttonText={buttonText}
-          />
-        </div>
-        {loggedIn && <img
-          onClick={() => setNav(!nav)
-          }
-          className="header__burger"
-          src={nav ? closeIcon : burgerIcon}
-          alt="Бургер меню"
-        />}
-      </div> */}
     </header>
   );
 }

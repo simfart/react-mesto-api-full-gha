@@ -23,7 +23,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
-
+  const [errMessage, setErrMessage] = useState("");
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
   const [selectedCardToDelete, setSelectedCardToDelete] = useState(null);
@@ -213,6 +213,7 @@ function App() {
           navigate("/singin", { replace: true });
         })
         .catch((err) => {
+          setErrMessage(err.message);
           setIsRegistered(false);
           openInfoTooltip();
         })
@@ -225,9 +226,8 @@ function App() {
 
   // Вход
   const handleLogin = useCallback(
-
     async (values) => {
-      setIsLoad(true)
+      setIsLoad(true);
       try {
         const res = await auth.authorize(values.email, values.password);
 
@@ -238,11 +238,13 @@ function App() {
           localStorage.setItem("jwt", res.token);
           setLoggedIn(true);
           setUserEmail(values.email);
-
           navigate("/", { replace: true });
         }
       } catch (e) {
         console.log(e);
+        setErrMessage(e.message);
+        setIsRegistered(false);
+        openInfoTooltip();
       } finally {
         setIsLoad(false);
       }
@@ -330,7 +332,9 @@ function App() {
             />
             <Route
               path="/singup"
-              element={<Register onAddAccount={handleRegister} loggedIn={loggedIn} />}
+              element={
+                <Register onAddAccount={handleRegister} loggedIn={loggedIn} />
+              }
             />
             <Route
               path="/singin"
@@ -367,6 +371,7 @@ function App() {
             isOpen={isInfoTooltipOpen}
             onClose={closeAllPopups}
             registered={isRegistered}
+            errMessage={errMessage}
           />
         </div>
       </div>

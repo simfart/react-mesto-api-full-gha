@@ -5,8 +5,6 @@ ul {
 
 .header {
   border-bottom: 1px solid rgba(84, 84, 84, 0.7);
-  /* display: flex;
-  justify-content: space-between; */
   font-size: 18px;
   line-height: 22px;
   color: #ffffff;

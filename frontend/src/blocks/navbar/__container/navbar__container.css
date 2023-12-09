@@ -5,5 +5,8 @@
 @media screen and (max-width: 600px) {
   .navbar__container {
     flex-direction: column;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
   }
 }

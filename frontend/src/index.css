@@ -70,7 +70,7 @@
 @import url("./blocks/popup/__title/_info/popup__title_info.css");
 @import url("./blocks/loader/loader.css");
 @import url("./blocks/header/__conteiner/header__conteiner.css");
-@import url("./blocks/header/__button/header__button.css");
+
 @import url("./blocks/header/__link/header__link.css");
 
 @import url("./blocks/header/__email/header__email.css");
@@ -78,11 +78,7 @@
 @import url("./blocks/header/__burger/header__burger.css");
 @import url("./blocks/header/__navbar/header__navbar.css");
 
-@import url("./blocks/header/__navbar/_auth/header__navbar_auth.css");
 @import url("./blocks/header/__navbar-menu/header__navbar-menu.css");
-@import url("./blocks/header/__navbar-burger/header__navbar-burger.css");
-@import url("./blocks/header/__navbar-burger/_opened/header__navbar-burger_opened.css");
-@import url("./blocks/header/__navbar-burger/_menu/header__navbar-burger_menu.css");
-
 @import url("./blocks/navbar/__container/navbar__container.css");
 @import url("./blocks/header/__menu/header__menu.css");
+@import url("./blocks/navbar/__link/navbar__link.css");

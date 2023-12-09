@@ -1,15 +1,3 @@
-/* @media screen and (max-width: 600px) {
-  .header__navbar {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .header__navbar_auth {
-    display: inline;
-  }
-} */
-
 .header__navbar {
   max-height: 0;
   overflow: hidden;
@@ -22,6 +10,8 @@
 .header__navbar_opened {
   max-height: 142px;
   transition: max-height 0.25s ease-in;
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+  margin-bottom: 27px;
 }
 
 @media screen and (min-width: 600px) {
