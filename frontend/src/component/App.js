@@ -281,6 +281,7 @@ function App() {
             setLoggedIn(true);
             navigate("/", { replace: true });
             setUserEmail(res.email);
+            console.log(userEmail);
           }
         })
         .catch((err) => {

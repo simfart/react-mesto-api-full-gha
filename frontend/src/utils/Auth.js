@@ -20,7 +20,6 @@ function request(url, method, body, token) {
       return res.json();
     }
     return res.json().then((err) => Promise.reject(err));
-    // return Promise.reject(`Ошибка: ${res.status}`);
   }
 
   return fetch(`${BASE_URL}${url}`, config).then(getResponseData);
