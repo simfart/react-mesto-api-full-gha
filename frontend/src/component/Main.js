@@ -13,8 +13,11 @@ function Main({
   cards,
   email,
   signOut,
+  loggedIn 
 }) {
+
   const currentUser = React.useContext(CurrentUserContext);
+
   return (
     <>
       <Header
@@ -22,6 +25,8 @@ function Main({
         adress={"/singin"}
         buttonText={"Выйти"}
         email={email}
+        loggedIn={loggedIn}
+        
       />
       <main className="content">
         <section className="profile">

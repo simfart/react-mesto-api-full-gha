@@ -19,13 +19,14 @@ function request(url, method, body, token) {
     if (res.ok) {
       return res.json();
     }
-    return Promise.reject(`Ошибка: ${res.status}`);
+    return res.json().then((err) => Promise.reject(err));
   }
 
   return fetch(`${BASE_URL}${url}`, config).then(getResponseData);
 }
 
-export const BASE_URL = "https://api.simfart.nomoredomains.monster";
+export const BASE_URL = "http://localhost:3001";
+
 export const register = (data) => {
   return request("/signup", "POST", {
     email: data.email,

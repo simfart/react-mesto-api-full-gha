@@ -1,0 +1,13 @@
+.header__navbar-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    margin: 0;
+  }
+  @media screen and (max-width: 600px) {
+    .header__navbar-menu {
+      flex-direction: column;
+    }
+
+  }  
