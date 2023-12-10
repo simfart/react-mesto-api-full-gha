@@ -1,32 +1,29 @@
-import React from "react";
-import Card from "./Card";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import Header from "./Header";
+import React from 'react'
+import Card from './Card'
+import { CurrentUserContext } from '../contexts/CurrentUserContext'
+import Header from './Header'
+import { usePopups } from '../hooks'
 
 function Main({
-  onEditAvatar,
-  onEditProfile,
-  onAddPlace,
   onCardClick,
   onCardDelete,
   onCardLike,
   cards,
   email,
   signOut,
-  loggedIn 
+  loggedIn,
 }) {
-
-  const currentUser = React.useContext(CurrentUserContext);
+  const { openPopup } = usePopups()
+  const currentUser = React.useContext(CurrentUserContext)
 
   return (
     <>
       <Header
         buttonClick={signOut}
-        adress={"/singin"}
-        buttonText={"Выйти"}
+        adress={'/singin'}
+        buttonText={'Выйти'}
         email={email}
         loggedIn={loggedIn}
-        
       />
       <main className="content">
         <section className="profile">
@@ -61,18 +58,17 @@ function Main({
         <section className="elements">
           {cards.map((card) => (
             <Card
-            onCardClick={onCardClick} 
-            onCardLike={onCardLike} 
-            onCardDelete={onCardDelete} 
-            card={card} 
-            key={card._id} 
-
+              onCardClick={onCardClick}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
+              card={card}
+              key={card._id}
             />
           ))}
         </section>
       </main>
     </>
-  );
+  )
 }
 
-export default Main;
+export default Main
