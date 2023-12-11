@@ -1,35 +1,57 @@
-import React from 'react';
-import PopupWithForm from './PopupWithForm';
-import { useForm } from '../hooks/useForm';
+import React, { useCallback } from 'react'
+import PopupWithForm from './PopupWithForm'
+import { useForm } from '../hooks/useForm'
+import { usePopups } from '../hooks'
+import { useMutation, useQueryClient } from 'react-query'
+import { editUserAvatar } from '../api'
 
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
+function EditAvatarPopup() {
+  const { handleChange, isValid, setIsValid, errors, setErrors } = useForm({})
 
-  const { handleChange, isValid, setIsValid, errors, setErrors } = useForm({});
+  const { closePopup } = usePopups()
 
-  const avatarRef = React.useRef();
+  const closeHandler = useCallback(() => {
+    closePopup()
+  }, [closePopup])
 
-  function handleSubmit(e) {
-    // Запрещаем браузеру переходить по адресу формы
-    e.preventDefault();
-    // Передаём значения управляемых компонентов во внешний обработчик
-    onUpdateAvatar({
-      avatar: avatarRef.current.value,
-    });
-  }
+  const avatarRef = React.useRef()
+
+  const queryClient = useQueryClient()
+
+  const { mutate, isLoading } = useMutation(editUserAvatar, {
+    onSuccess: () => {
+      closePopup()
+      queryClient.invalidateQueries(['user'])
+    },
+  })
+
+  const handleSubmit = useCallback(
+    (e) => {
+      // Запрещаем браузеру переходить по адресу формы
+      e.preventDefault()
+      // Передаём значения управляемых компонентов во внешний обработчик
+      mutate(avatarRef.current.value)
+    },
+    [mutate],
+  )
 
   React.useEffect(() => {
-    avatarRef.current.value = '';
-    setErrors({});
+    avatarRef.current.value = ''
+    setErrors({})
     setIsValid(true)
-  }, [isOpen, setErrors, setIsValid]);
+  }, [
+    // isOpen,
+    setErrors,
+    setIsValid,
+  ])
 
   return (
     <PopupWithForm
-      isOpen={isOpen}
-      onClose={onClose}
+      isOpen={true}
+      onClose={closeHandler}
       popupTitle="Обновить аватар"
       popunName="update_avatar"
-      buttonText={isLoading ? "Сохранение..." : "Обновить"}
+      buttonText={isLoading ? 'Сохранение...' : 'Обновить'}
       onSubmit={handleSubmit}
       isValid={isValid}
     >
@@ -45,7 +67,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
       />
       <span className="popup__error">{errors.link || ''}</span>
     </PopupWithForm>
-  );
+  )
 }
 
-export default EditAvatarPopup;
+export default EditAvatarPopup

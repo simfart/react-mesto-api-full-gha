@@ -1,5 +1,5 @@
 import { useCallback, useContext, useMemo } from 'react'
-import { CurrentUserContext } from '../contexts/CurrentUserContext'
+import { CurrentUserContext } from '../../contexts/CurrentUserContext'
 
 export const Card = ({ card, onCardClick, onCardLike, onCardDelete }) => {
   const currentUser = useContext(CurrentUserContext)

@@ -1,8 +1,10 @@
-import React from 'react'
-import Card from './Card'
+import React, { useCallback } from 'react'
+import { Card } from './Card'
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 import Header from './Header'
 import { usePopups } from '../hooks'
+import { useQuery } from 'react-query'
+import { getUser } from '../api'
 
 function Main({
   onCardClick,
@@ -14,7 +16,12 @@ function Main({
   loggedIn,
 }) {
   const { openPopup } = usePopups()
-  const currentUser = React.useContext(CurrentUserContext)
+
+  const onProfileClick = useCallback(() => {
+    openPopup('editAvatarPopup')
+  }, [openPopup])
+
+  const { data: user, isLoading } = useQuery('user', getUser)
 
   return (
     <>
@@ -28,28 +35,24 @@ function Main({
       <main className="content">
         <section className="profile">
           <button
-            onClick={onEditAvatar}
+            onClick={onProfileClick}
             type="button"
             className="profile__conteiner"
           >
-            <img
-              className="profile__avatar"
-              src={currentUser.avatar}
-              alt="Аватар"
-            />
+            <img className="profile__avatar" src={user?.avatar} alt="Аватар" />
           </button>
           <div className="profile__info">
-            <h1 className="profile__title">{currentUser.name}</h1>
+            <h1 className="profile__title">{user?.name}</h1>
             <button
-              onClick={onEditProfile}
+              // onClick={onEditProfile}
               className="profile__edit-button"
               type="button"
               aria-label="Исправить"
             ></button>
-            <p className="profile__subtitle">{currentUser.about}</p>
+            <p className="profile__subtitle">{user?.about}</p>
           </div>
           <button
-            onClick={onAddPlace}
+            // onClick={onAddPlace}
             className="profile__add-button"
             type="button"
             aria-label="Добавить"

@@ -8,11 +8,18 @@ export const Popups = ({ children }) => {
 
   const openPopup = useCallback((popupName, popupProps) => {
     setPopup(popupName)
-    setPopupProps(popupProps)
+    if (popupProps) {
+      setPopupProps(popupProps)
+    }
+  }, [])
+
+  const closePopup = useCallback(() => {
+    setPopup(null)
+    setPopupProps({})
   }, [])
 
   const popupContent = useMemo(() => {
-    if (popup) return null
+    if (!popup) return null
 
     const Component = popupsMapper[popup]
 
@@ -31,22 +38,24 @@ export const Popups = ({ children }) => {
     }
   }, [])
 
-  useEffect(() => {
-    if (popup) {
-      // навешиваем только при открытии
-      document.addEventListener('keydown', closeByEscape)
-      document.addEventListener('mousedown', clickOverPopups)
-      return () => {
-        document.removeEventListener('keydown', closeByEscape)
-        document.removeEventListener('mousedown', clickOverPopups)
-      }
-    }
-  }, [popup])
+  // useEffect(() => {
+  //   if (popup) {
+  //     // навешиваем только при открытии
+  //     document.addEventListener('keydown', closeByEscape)
+  //     document.addEventListener('mousedown', clickOverPopups)
+  //     return () => {
+  //       document.removeEventListener('keydown', closeByEscape)
+  //       document.removeEventListener('mousedown', clickOverPopups)
+  //     }
+  //   }
+  // }, [popup])
 
   return (
-    <PopupsContext.Provider value={{ openPopup }}>
+    <PopupsContext.Provider value={{ openPopup, closePopup }}>
       {popupContent}
       {children}
+      {/* <ImagePopup card={selectedCard} onClose={closeAllPopups} /> */}
+
       {/* <EditProfilePopup
         onClose={closeAllPopups}
         onUpdateUser={handleUpdateUser}
@@ -62,7 +71,6 @@ export const Popups = ({ children }) => {
         onAddPlace={handleAddPlaceSubmit}
         isLoading={load}
       />
-      <ImagePopup card={selectedCard} onClose={closeAllPopups} />
       <ConfirmPopup
         card={selectedCardToDelete}
         onClose={closeAllPopups}

@@ -1,20 +1,17 @@
 import { useEffect, useState, useCallback, createContext } from 'react'
-import Main from '../component/Main'
-import Footer from './Footer'
 import api from '../utils/Api'
 import * as auth from '../utils/Auth'
-import ImagePopup from './ImagePopup'
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
-import EditProfilePopup from './EditProfilePopup'
-import EditAvatarPopup from './EditAvatarPopup'
-import AddPlacePopup from './AddPlacePopup'
-import ConfirmPopup from './ConfirmPopup'
-import Loader from './Loader'
 import { Route, Routes, useNavigate } from 'react-router-dom'
-import Register from './Register'
-import Login from './Login'
-import InfoTooltip from './InfoTooltip'
-import ProtectedRoute from './ProtectedRoute'
+import Register from '../component/Register'
+import Login from '../component/Login'
+import Footer from '../component/Footer'
+import ProtectedRoute from '../component/ProtectedRoute'
+import Loader from '../component/Loader'
+import Main from '../component/Main'
+import { Popups } from '../component/Popups'
+import { QueryClientProvider } from './providers'
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 const BuissnessLogicContext = createContext({})
 
@@ -45,14 +42,14 @@ export const App = () => {
   }, [loggedIn])
 
   // Попап image
-  function handleCardClick(card) {
-    setSelectedCard(card)
-  }
+  // function handleCardClick(card) {
+  //   setSelectedCard(card)
+  // }
 
-  // Попап infoTooltip
-  function openInfoTooltip() {
-    setIsInfoTooltipOpen(!isInfoTooltipOpen)
-  }
+  // // Попап infoTooltip
+  // function openInfoTooltip() {
+  //   setIsInfoTooltipOpen(!isInfoTooltipOpen)
+  // }
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
@@ -72,10 +69,10 @@ export const App = () => {
       })
   }
 
-  function handleCardClickDelete(card) {
-    setSelectedCardToDelete(card)
-    setIsConfirmPopupOpen(!isConfirmPopupOpen)
-  }
+  // function handleCardClickDelete(card) {
+  //   setSelectedCardToDelete(card)
+  //   setIsConfirmPopupOpen(!isConfirmPopupOpen)
+  // }
 
   // удаление карточки
   function handleCardDelete(card) {
@@ -85,7 +82,7 @@ export const App = () => {
       .then(() => {
         const filtered = cards.filter((newCard) => newCard !== card)
         setCards(filtered)
-        closeAllPopups()
+        // closeAllPopups()
       })
       .catch((err) => {
         console.log(err)
@@ -102,7 +99,7 @@ export const App = () => {
       .editlUserInfo(values)
       .then((res) => {
         setCurrentUser(res)
-        closeAllPopups()
+        // closeAllPopups()
       })
       .catch((err) => {
         console.log(err)
@@ -119,7 +116,7 @@ export const App = () => {
       .editAvatar(values)
       .then((res) => {
         setCurrentUser(res)
-        closeAllPopups()
+        // closeAllPopups()
       })
       .catch((err) => {
         console.log(err)
@@ -136,7 +133,7 @@ export const App = () => {
       .createNewCard(data)
       .then((data) => {
         setCards([data, ...cards])
-        closeAllPopups()
+        // closeAllPopups()
       })
       .catch((err) => {
         console.log(err)
@@ -152,19 +149,21 @@ export const App = () => {
         .register(values)
         .then((res) => {
           setIsRegistered(true)
-          openInfoTooltip()
+          // openInfoTooltip()
           navigate('/singin', { replace: true })
         })
         .catch((err) => {
           setErrMessage(err.message)
           setIsRegistered(false)
-          openInfoTooltip()
+          // openInfoTooltip()
         })
         .finally(() => {
           setIsLoad(false)
         })
     },
-    [openInfoTooltip],
+    [
+      // openInfoTooltip
+    ],
   )
 
   // Вход
@@ -187,7 +186,7 @@ export const App = () => {
         console.log(e)
         setErrMessage(e.message)
         setIsRegistered(false)
-        openInfoTooltip()
+        // openInfoTooltip()
       } finally {
         setIsLoad(false)
       }
@@ -245,52 +244,60 @@ export const App = () => {
   }
 
   return (
-    <CurrentUserContext.Provider value={currentUser}>
-      <BuissnessLogicContext.Provider value={{ handleUpdateAvatar }}>
-        <div className="body">
-          <div className="page">
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <ProtectedRoute
-                    isloggedIn={loggedIn}
+    <QueryClientProvider>
+      <CurrentUserContext.Provider value={currentUser}>
+        <BuissnessLogicContext.Provider value={{ handleUpdateAvatar }}>
+          <ReactQueryDevtools initialIsOpen={true} />
+          <Popups>
+            <div className="body">
+              <div className="page">
+                <Routes>
+                  <Route
+                    path="/"
                     element={
-                      <>
-                        <Main
-                          onEditProfile={openProfilePopup}
-                          onEditAvatar={openEditAvatarPopup}
-                          onAddPlace={openAddPlacePopup}
-                          onCardDelete={handleCardClickDelete}
-                          onCardClick={handleCardClick}
-                          onCardLike={handleCardLike}
-                          cards={cards}
-                          email={userEmail}
-                          signOut={handleLogout}
-                          loggedIn={loggedIn}
-                        />
-                        <Footer />
-                      </>
+                      <ProtectedRoute
+                        isloggedIn={loggedIn}
+                        element={
+                          <>
+                            <Main
+                              // onEditProfile={openProfilePopup}
+                              // onEditAvatar={openEditAvatarPopup}
+                              // onAddPlace={openAddPlacePopup}
+                              // onCardDelete={handleCardClickDelete}
+                              // onCardClick={handleCardClick}
+                              onCardLike={handleCardLike}
+                              cards={cards}
+                              email={userEmail}
+                              signOut={handleLogout}
+                              loggedIn={loggedIn}
+                            />
+                            <Footer />
+                          </>
+                        }
+                      />
                     }
                   />
-                }
-              />
-              <Route
-                path="/singup"
-                element={
-                  <Register onAddAccount={handleRegister} loggedIn={loggedIn} />
-                }
-              />
-              <Route
-                path="/singin"
-                element={
-                  <Login handleLogin={handleLogin} loggedIn={loggedIn} />
-                }
-              />
-            </Routes>
-          </div>
-        </div>
-      </BuissnessLogicContext.Provider>
-    </CurrentUserContext.Provider>
+                  <Route
+                    path="/singup"
+                    element={
+                      <Register
+                        onAddAccount={handleRegister}
+                        loggedIn={loggedIn}
+                      />
+                    }
+                  />
+                  <Route
+                    path="/singin"
+                    element={
+                      <Login handleLogin={handleLogin} loggedIn={loggedIn} />
+                    }
+                  />
+                </Routes>
+              </div>
+            </div>
+          </Popups>
+        </BuissnessLogicContext.Provider>
+      </CurrentUserContext.Provider>
+    </QueryClientProvider>
   )
 }
