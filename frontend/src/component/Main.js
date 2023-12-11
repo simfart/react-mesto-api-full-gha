@@ -2,9 +2,9 @@ import React, { useCallback } from 'react'
 import { Card } from './Card'
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 import Header from './Header'
-import { usePopups } from '../hooks'
-import { useQuery } from 'react-query'
-import { getUser } from '../api'
+import { Cards } from './Cards'
+
+import { Profile } from './Profile'
 
 function Main({
   onCardClick,
@@ -15,14 +15,6 @@ function Main({
   signOut,
   loggedIn,
 }) {
-  const { openPopup } = usePopups()
-
-  const onProfileClick = useCallback(() => {
-    openPopup('editAvatarPopup')
-  }, [openPopup])
-
-  const { data: user, isLoading } = useQuery('user', getUser)
-
   return (
     <>
       <Header
@@ -33,42 +25,8 @@ function Main({
         loggedIn={loggedIn}
       />
       <main className="content">
-        <section className="profile">
-          <button
-            onClick={onProfileClick}
-            type="button"
-            className="profile__conteiner"
-          >
-            <img className="profile__avatar" src={user?.avatar} alt="Аватар" />
-          </button>
-          <div className="profile__info">
-            <h1 className="profile__title">{user?.name}</h1>
-            <button
-              // onClick={onEditProfile}
-              className="profile__edit-button"
-              type="button"
-              aria-label="Исправить"
-            ></button>
-            <p className="profile__subtitle">{user?.about}</p>
-          </div>
-          <button
-            // onClick={onAddPlace}
-            className="profile__add-button"
-            type="button"
-            aria-label="Добавить"
-          ></button>
-        </section>
-        <section className="elements">
-          {cards.map((card) => (
-            <Card
-              onCardClick={onCardClick}
-              onCardLike={onCardLike}
-              onCardDelete={onCardDelete}
-              card={card}
-              key={card._id}
-            />
-          ))}
-        </section>
+        <Profile />
+        <Cards />
       </main>
     </>
   )

@@ -1,40 +1,58 @@
-import React from 'react';
-import PopupWithForm from './PopupWithForm';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import { useForm } from '../hooks/useForm';
+import { useEffect, useCallback } from 'react'
+import PopupWithForm from './PopupWithForm'
+import { useForm } from '../hooks/useForm'
+import { useUser } from '../hooks'
+import { useEditUserProfileMutation } from '../hooks'
+import { usePopups } from '../hooks'
 
+function EditProfilePopup() {
+  const {
+    values,
+    handleChange,
+    setValues,
+    isValid,
+    setIsValid,
+    errors,
+    setErrors,
+  } = useForm({})
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
+  const { data: user } = useUser()
+  const { closePopup } = usePopups()
 
-  const { values, handleChange, setValues, isValid, setIsValid, errors, setErrors } = useForm({});
-  const currentUser = React.useContext(CurrentUserContext);
+  useEffect(() => {
+    if (user) {
+      setValues({
+        name: user.name,
+        about: user.about,
+      })
+      setErrors({})
+      setIsValid(true)
+    }
+  }, [user])
 
-  React.useEffect(() => {
-    setValues({
-      name: currentUser.name,
-      about: currentUser.about
-    });
-    setErrors({});
-    setIsValid(true);
-  }, [currentUser, isOpen, setValues, setErrors, setIsValid]);
+  const { mutate, isLoading } = useEditUserProfileMutation()
 
   function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
-    e.preventDefault();
+    e.preventDefault()
     // Передаём значения управляемых компонентов во внешний обработчик
-    onUpdateUser({
+    mutate({
       name: values.name,
       about: values.about,
-    });
+    })
   }
+
+  const closeHandler = useCallback(() => {
+    closePopup()
+  }, [closePopup])
 
   return (
     <PopupWithForm
-      isOpen={isOpen}
-      onClose={onClose}
+      isOpen={true}
+      onClose={closeHandler}
       popupTitle="Редактировать профиль"
       popunName="add_profile"
-      buttonText={isLoading ? "Сохранение..." : "Сохранить"}
+      buttonText={isLoading ? 'Сохранение...' : 'Сохранить'}
       onSubmit={handleSubmit}
       isValid={isValid}
     >
@@ -63,7 +81,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
       />
       <span className="popup__error">{errors.about || ''}</span>
     </PopupWithForm>
-  );
+  )
 }
 
-export default EditProfilePopup;
+export default EditProfilePopup

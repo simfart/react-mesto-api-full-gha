@@ -2,13 +2,15 @@ import axios from 'axios'
 import { apiUrl } from '../constants'
 import { getAccessToken } from '../utils'
 
-export const getUser = async () => {
-  return await axios
-    .get(`${apiUrl}/users/me`, {
+export const editUserProfile = async (profile) => {
+  try {
+    return await axios.patch(`${apiUrl}/users/me/`, profile, {
       headers: {
         Authorization: `Bearer ${getAccessToken()}`,
       },
       withCredentials: true,
     })
-    .then((res) => res.data)
+  } catch (err) {
+    throw err
+  }
 }

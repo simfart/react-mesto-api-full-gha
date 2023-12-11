@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { apiUrl } from '../constants'
+import { getAccessToken } from '../utils'
 
 export const editUserAvatar = async (avatar) => {
   try {
@@ -10,7 +11,7 @@ export const editUserAvatar = async (avatar) => {
       },
       {
         headers: {
-          Authorization: `Bearer ${window.localStorage.getItem('jwt')}`,
+          Authorization: `Bearer ${getAccessToken()}`,
         },
         withCredentials: true,
       },

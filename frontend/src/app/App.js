@@ -13,8 +13,6 @@ import { Popups } from '../component/Popups'
 import { QueryClientProvider } from './providers'
 import { ReactQueryDevtools } from 'react-query/devtools'
 
-const BuissnessLogicContext = createContext({})
-
 export const App = () => {
   const navigate = useNavigate()
 
@@ -41,15 +39,7 @@ export const App = () => {
     }
   }, [loggedIn])
 
-  // Попап image
-  // function handleCardClick(card) {
-  //   setSelectedCard(card)
-  // }
-
-  // // Попап infoTooltip
-  // function openInfoTooltip() {
-  //   setIsInfoTooltipOpen(!isInfoTooltipOpen)
-  // }
+  // 
 
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
@@ -69,11 +59,6 @@ export const App = () => {
       })
   }
 
-  // function handleCardClickDelete(card) {
-  //   setSelectedCardToDelete(card)
-  //   setIsConfirmPopupOpen(!isConfirmPopupOpen)
-  // }
-
   // удаление карточки
   function handleCardDelete(card) {
     setLoad(true)
@@ -92,56 +77,6 @@ export const App = () => {
       })
   }
 
-  //Редактирование профиля
-  function handleUpdateUser(values) {
-    setLoad(true)
-    api
-      .editlUserInfo(values)
-      .then((res) => {
-        setCurrentUser(res)
-        // closeAllPopups()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-      .finally(() => {
-        setLoad(false)
-      })
-  }
-
-  //Редактирование аватара
-  function handleUpdateAvatar(values) {
-    setLoad(true)
-    api
-      .editAvatar(values)
-      .then((res) => {
-        setCurrentUser(res)
-        // closeAllPopups()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-      .finally(() => {
-        setLoad(false)
-      })
-  }
-
-  // Добавление карточек
-  function handleAddPlaceSubmit(data) {
-    setLoad(true)
-    api
-      .createNewCard(data)
-      .then((data) => {
-        setCards([data, ...cards])
-        // closeAllPopups()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-      .finally(() => {
-        setLoad(false)
-      })
-  }
   // Региcтрация
   const handleRegister = useCallback(
     (values) => {
@@ -246,57 +181,55 @@ export const App = () => {
   return (
     <QueryClientProvider>
       <CurrentUserContext.Provider value={currentUser}>
-        <BuissnessLogicContext.Provider value={{ handleUpdateAvatar }}>
-          <ReactQueryDevtools initialIsOpen={true} />
-          <Popups>
-            <div className="body">
-              <div className="page">
-                <Routes>
-                  <Route
-                    path="/"
-                    element={
-                      <ProtectedRoute
-                        isloggedIn={loggedIn}
-                        element={
-                          <>
-                            <Main
-                              // onEditProfile={openProfilePopup}
-                              // onEditAvatar={openEditAvatarPopup}
-                              // onAddPlace={openAddPlacePopup}
-                              // onCardDelete={handleCardClickDelete}
-                              // onCardClick={handleCardClick}
-                              onCardLike={handleCardLike}
-                              cards={cards}
-                              email={userEmail}
-                              signOut={handleLogout}
-                              loggedIn={loggedIn}
-                            />
-                            <Footer />
-                          </>
-                        }
-                      />
-                    }
-                  />
-                  <Route
-                    path="/singup"
-                    element={
-                      <Register
-                        onAddAccount={handleRegister}
-                        loggedIn={loggedIn}
-                      />
-                    }
-                  />
-                  <Route
-                    path="/singin"
-                    element={
-                      <Login handleLogin={handleLogin} loggedIn={loggedIn} />
-                    }
-                  />
-                </Routes>
-              </div>
+        <ReactQueryDevtools initialIsOpen={true} />
+        <Popups>
+          <div className="body">
+            <div className="page">
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <ProtectedRoute
+                      isloggedIn={loggedIn}
+                      element={
+                        <>
+                          <Main
+                            // onEditProfile={openProfilePopup}
+                            // onEditAvatar={openEditAvatarPopup}
+                            // onAddPlace={openAddPlacePopup}
+                            // onCardDelete={handleCardClickDelete}
+                            // onCardClick={handleCardClick}
+                            onCardLike={handleCardLike}
+                            cards={cards}
+                            email={userEmail}
+                            signOut={handleLogout}
+                            loggedIn={loggedIn}
+                          />
+                          <Footer />
+                        </>
+                      }
+                    />
+                  }
+                />
+                <Route
+                  path="/singup"
+                  element={
+                    <Register
+                      onAddAccount={handleRegister}
+                      loggedIn={loggedIn}
+                    />
+                  }
+                />
+                <Route
+                  path="/singin"
+                  element={
+                    <Login handleLogin={handleLogin} loggedIn={loggedIn} />
+                  }
+                />
+              </Routes>
             </div>
-          </Popups>
-        </BuissnessLogicContext.Provider>
+          </div>
+        </Popups>
       </CurrentUserContext.Provider>
     </QueryClientProvider>
   )
