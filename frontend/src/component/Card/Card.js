@@ -1,7 +1,8 @@
 import { useCallback, useContext, useMemo } from 'react'
 import { CurrentUserContext } from '../../contexts/CurrentUserContext'
+import { usePopups } from '../../hooks'
 
-export const Card = ({ card, onCardClick, onCardLike, onCardDelete }) => {
+export const Card = ({ card, onCardLike, onCardDelete }) => {
   const currentUser = useContext(CurrentUserContext)
   const isOwn = useMemo(
     () => card.owner._id === currentUser._id || card.owner === currentUser._id,
@@ -11,13 +12,15 @@ export const Card = ({ card, onCardClick, onCardLike, onCardDelete }) => {
   const isLiked = card.likes.some(
     (i) => i._id === currentUser._id || i === currentUser._id,
   )
-  const cardLikeButtonClassName = `element__button ${
-    isLiked && 'element__button_active'
-  }`
+  const cardLikeButtonClassName = `element__button ${isLiked && 'element__button_active'
+    }`
 
-  const handleClick = useCallback(() => {
-    onCardClick(card)
-  }, [onCardClick, card])
+
+  const { openPopup } = usePopups()
+
+  const onCardClick = useCallback(() => {
+    openPopup('imagePopup', { card })
+  }, [openPopup])
 
   function handleLikeClick() {
     onCardLike(card)
@@ -37,7 +40,7 @@ export const Card = ({ card, onCardClick, onCardLike, onCardDelete }) => {
     <figure className="element">
       <img
         className="element__photo"
-        onClick={handleClick}
+        onClick={onCardClick}
         src={card.link}
         alt={card.name}
       />
