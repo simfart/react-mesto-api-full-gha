@@ -1,6 +1,7 @@
 import { useCallback, useContext, useMemo } from 'react'
 import { CurrentUserContext } from '../../contexts/CurrentUserContext'
 import { usePopups } from '../../hooks'
+import { useCard } from '../../hooks'
 
 export const Card = ({ card, onCardLike, onCardDelete }) => {
   const currentUser = useContext(CurrentUserContext)
@@ -12,9 +13,9 @@ export const Card = ({ card, onCardLike, onCardDelete }) => {
   const isLiked = card.likes.some(
     (i) => i._id === currentUser._id || i === currentUser._id,
   )
-  const cardLikeButtonClassName = `element__button ${isLiked && 'element__button_active'
-    }`
-
+  const cardLikeButtonClassName = `element__button ${
+    isLiked && 'element__button_active'
+  }`
 
   const { openPopup } = usePopups()
 
@@ -26,9 +27,16 @@ export const Card = ({ card, onCardLike, onCardDelete }) => {
     onCardLike(card)
   }
 
+  const { mutate, isLoading } = useCard(card)
+  // const handleDeleteClick = useCallback(() => {
+  //   onCardDelete(card)
+  // }, [card, onCardDelete])
+
   const handleDeleteClick = useCallback(() => {
-    onCardDelete(card)
-  }, [card, onCardDelete])
+    mutate({
+      card,
+    })
+  }, [])
 
   const trashButton = useMemo(() => {
     if (!isOwn) return null

@@ -1,6 +1,7 @@
-.popup-image__label{
-    margin-top: 10px;
-    font-size: 12px;
-    line-height: 15px;
-    overflow:hidden;
+.popup-image__label {
+  color: #fff;
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 15px;
+  overflow: hidden;
 }

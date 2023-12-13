@@ -1,47 +1,44 @@
+export const BASE_URL = 'http://localhost:3001'
+
 function request(url, method, body, token) {
   const headers = {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  };
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  }
   if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
+    headers['Authorization'] = `Bearer ${token}`
   }
   const config = {
     method,
-    credentials: "include",
+    credentials: 'include',
     headers,
-  };
+  }
 
   if (body !== undefined) {
-    config.body = JSON.stringify(body);
+    config.body = JSON.stringify(body)
   }
   function getResponseData(res) {
     if (res.ok) {
-      return res.json();
+      return res.json()
     }
-    return res.json().then((err) => Promise.reject(err));
+    return res.json().then((err) => Promise.reject(err))
   }
 
-  return fetch(`${BASE_URL}${url}`, config).then(getResponseData);
+  return fetch(`${BASE_URL}${url}`, config).then(getResponseData)
 }
 
-export const BASE_URL = "http://localhost:3001";
-
-export const register = (data) => {
-  return request("/signup", "POST", {
+export const register = (data) =>
+  request('/signup', 'POST', {
     email: data.email,
     password: data.password,
-  });
-};
+  })
 
-export const authorize = (email, password) => {
-  return request("/signin", "POST", { email, password });
-};
+export const authorize = (email, password) =>
+  request('/signin', 'POST', { email, password })
 
-export const checkToken = (token) => {
-  return request("/users/me", "GET", undefined, token);
-};
+export const checkToken = (token) =>
+  request('/users/me', 'GET', undefined, token)
 
 export const logout = () => {
-  return request("/signout", "GET");
-};
+  return request('/signout', 'GET')
+}
