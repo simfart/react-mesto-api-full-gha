@@ -13,6 +13,10 @@ export const Profile = () => {
     openPopup('editProfile')
   }, [openPopup])
 
+  const onCreateCardClick = useCallback(() => {
+    openPopup('createCardPopup')
+  }, [openPopup])
+
   const { data: user, isLoading } = useUser()
 
   return (
@@ -35,7 +39,7 @@ export const Profile = () => {
         <p className="profile__subtitle">{user?.about}</p>
       </div>
       <button
-        // onClick={onAddPlace}
+        onClick={onCreateCardClick}
         className="profile__add-button"
         type="button"
         aria-label="Добавить"

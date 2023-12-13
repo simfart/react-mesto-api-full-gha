@@ -1,6 +1,6 @@
 import EditProfilePopup from '../EditProfilePopup'
 import EditAvatarPopup from '../EditAvatarPopup'
-import AddPlacePopup from '../AddPlacePopup'
+import CreateCardPopup from '../CreateCardPopup'
 import ImagePopup from '../ImagePopup'
 import ConfirmPopup from '../ConfirmPopup'
 import InfoTooltip from '../InfoTooltip'
@@ -8,7 +8,7 @@ import InfoTooltip from '../InfoTooltip'
 export const popupsMapper = {
   editProfile: EditProfilePopup,
   editAvatarPopup: EditAvatarPopup,
-  addPlacePopup: AddPlacePopup,
+  createCardPopup: CreateCardPopup,
   imagePopup: ImagePopup,
   confirmPopup: ConfirmPopup,
   infoTooltip: InfoTooltip,

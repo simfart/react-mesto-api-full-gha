@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useCallback, useRef } from 'react'
 import PopupWithForm from './PopupWithForm'
 import { useForm } from '../hooks/useForm'
+import { usePopups } from '../hooks'
+import { useMutation, useQueryClient } from 'react-query'
+import { createCard } from '../api'
 
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
+function CreateCardPopup({ isOpen, onClose, onAddPlace }) {
+
   const {
     values,
     handleChange,
@@ -14,26 +18,47 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
     setErrors,
   } = useForm({})
 
+  const { closePopup } = usePopups()
+
+  const closeHandler = useCallback(() => {
+    closePopup()
+  }, [closePopup])
+
+  const { data: card } = useRef()
+
+  const queryClient = useQueryClient()
+
+  const { mutate, isLoading } = useMutation(createCard, {
+    onSuccess: () => {
+      closePopup()
+      queryClient.invalidateQueries('card')
+    }
+  })
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault()
+      console.log(values.link)
+      mutate({
+        name: values.name,
+        link: values.link
+      })
+    },
+    [mutate],
+  )
+
   React.useEffect(() => {
-    setValues({})
     setErrors({})
     setIsValid(true)
-  }, [isOpen, setValues, setErrors, setIsValid])
-
-  function handleSubmit(e) {
-    // Запрещаем браузеру переходить по адресу формы
-    e.preventDefault()
-    // Передаём значения управляемых компонентов во внешний обработчик
-    onAddPlace({
-      name: values.name,
-      link: values.link,
-    })
-  }
+  }, [
+    setErrors,
+    setIsValid,
+  ])
 
   return (
     <PopupWithForm
-      isOpen={isOpen}
-      onClose={onClose}
+      isOpen={true}
+      onClose={closeHandler}
       popupTitle="Новое место"
       popunName="add_card"
       buttonText={isLoading ? 'Добавление...' : 'Создать'}
@@ -68,4 +93,4 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
   )
 }
 
-export default AddPlacePopup
+export default CreateCardPopup

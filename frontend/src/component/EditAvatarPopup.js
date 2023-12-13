@@ -27,9 +27,7 @@ function EditAvatarPopup() {
 
   const handleSubmit = useCallback(
     (e) => {
-      // Запрещаем браузеру переходить по адресу формы
       e.preventDefault()
-      // Передаём значения управляемых компонентов во внешний обработчик
       mutate(avatarRef.current.value)
     },
     [mutate],
