@@ -3,6 +3,7 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext'
 import { usePopups } from '../../hooks'
 import { deleteCard } from '../../api'
 import { useMutation, useQueryClient } from 'react-query'
+import { useCardMutation } from '../../hooks'
 
 export const Card = ({ card, onCardLike, onCardDelete }) => {
   const currentUser = useContext(CurrentUserContext)
@@ -23,34 +24,32 @@ export const Card = ({ card, onCardLike, onCardDelete }) => {
     openPopup('imagePopup', { card })
   }, [openPopup])
 
+  const onDeleteClick = useCallback(
+    () => {
+      openPopup('deletePopup', card)
+    }, [openPopup]
+  )
+
   function handleLikeClick() {
     onCardLike(card)
   }
 
-  const queryClient = useQueryClient()
+  // const { mutate, isLoading } = useCardMutation()
 
-  const { mutate, isLoading } = useMutation(deleteCard, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['card'])
-    },
-  })
-
-  const handleDeleteClick = useCallback(
-    (e) => {
-      e.preventDefault()
-      mutate(card._id)
-    },
-    [mutate],
-  )
-
+  // const handleDeleteClick = useCallback(
+  //   (e) => {
+  //     e.preventDefault()
+  //     mutate(card._id)
+  //   }, [mutate]
+  // )
 
   const trashButton = useMemo(() => {
     if (!isOwn) return null
 
     return <button className="element__trash"
-      onClick={handleDeleteClick}
+      onClick={onDeleteClick}
     />
-  }, [handleDeleteClick, isOwn])
+  }, [onDeleteClick, isOwn])
 
   return (
     <figure className="element">

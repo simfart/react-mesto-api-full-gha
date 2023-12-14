@@ -7,9 +7,6 @@ export const deleteCard = async (card) => {
     return await axios.delete(
       `${apiUrl}/cards/${card}`,
       {
-        card,
-      },
-      {
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
         },
