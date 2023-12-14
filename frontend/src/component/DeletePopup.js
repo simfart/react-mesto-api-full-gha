@@ -1,11 +1,13 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import PopupWithForm from './PopupWithForm';
-import { useCardMutation } from '../hooks';
+import { useCardToDelete } from '../hooks';
 import { usePopups } from '../hooks';
+import { useContext, createContext } from 'react'
 
-function DeletePopup(card) {
 
-  const { mutate, isLoading } = useCardMutation()
+export const DeletePopup = (card) => {
+
+  const { mutate, isLoading } = useCardToDelete()
   const { closePopup } = usePopups()
 
   const handleSubmit = useCallback(
@@ -18,7 +20,6 @@ function DeletePopup(card) {
   const closeHandler = useCallback(() => {
     closePopup()
   }, [closePopup])
-
 
   return (
     <PopupWithForm
@@ -33,5 +34,3 @@ function DeletePopup(card) {
     </PopupWithForm>
   );
 }
-
-export default DeletePopup;

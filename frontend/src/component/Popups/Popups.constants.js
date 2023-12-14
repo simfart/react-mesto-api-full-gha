@@ -2,7 +2,7 @@ import EditProfilePopup from '../EditProfilePopup'
 import EditAvatarPopup from '../EditAvatarPopup'
 import CreateCardPopup from '../CreateCardPopup'
 import ImagePopup from '../ImagePopup'
-import DeletePopup from '../DeletePopup'
+import { DeletePopup } from '../DeletePopup'
 import InfoTooltip from '../InfoTooltip'
 
 export const popupsMapper = {
