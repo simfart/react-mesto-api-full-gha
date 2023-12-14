@@ -4,10 +4,9 @@ import { Card } from '../Card/Card'
 
 export const Cards = () => {
   const { data: cards } = useCards()
-
   const cardsContent = useMemo(() => {
     if (cards) {
-      return cards.reverse().map((card) => (
+      return cards.toReversed().map((card) => (
         <Card
           //   onCardClick={onCardClick}
           //   onCardLike={onCardLike}

@@ -1,13 +1,11 @@
 import React, { useCallback, useRef } from 'react'
 import PopupWithForm from './PopupWithForm'
-import { useForm } from '../hooks/useForm'
+import { useForm } from '../hooks'
 import { usePopups } from '../hooks'
 import { useMutation, useQueryClient } from 'react-query'
 import { createCard } from '../api'
 
-
-function CreateCardPopup({ isOpen, onClose, onAddPlace }) {
-
+function CreateCardPopup() {
   const {
     values,
     handleChange,
@@ -18,42 +16,40 @@ function CreateCardPopup({ isOpen, onClose, onAddPlace }) {
     setErrors,
   } = useForm({})
 
+  React.useEffect(() => {
+    setErrors({})
+    setIsValid(true)
+  }, [setErrors, setIsValid])
+
   const { closePopup } = usePopups()
 
   const closeHandler = useCallback(() => {
     closePopup()
+    setValues({})
   }, [closePopup])
 
-  const { data: card } = useRef()
+  // Зачем надо
 
+  const { data: card } = useRef()
   const queryClient = useQueryClient()
 
   const { mutate, isLoading } = useMutation(createCard, {
     onSuccess: () => {
       closePopup()
-      queryClient.invalidateQueries('card')
-    }
+      queryClient.invalidateQueries()
+    },
   })
 
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault()
-      console.log(values.link)
       mutate({
         name: values.name,
-        link: values.link
+        link: values.link,
       })
     },
-    [mutate],
+    [mutate, values.link, values.name],
   )
-
-  React.useEffect(() => {
-    setErrors({})
-    setIsValid(true)
-  }, [
-    setErrors,
-    setIsValid,
-  ])
 
   return (
     <PopupWithForm
