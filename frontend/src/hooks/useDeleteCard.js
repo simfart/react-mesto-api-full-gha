@@ -4,7 +4,7 @@ import { usePopups } from './usePopups'
 import { useMemo } from 'react'
 import { useRef } from 'react'
 
-export const useCardToDelete = () => {
+export const useDeleteCard = () => {
   const { closePopup } = usePopups()
   //
   const { data: card } = useRef()

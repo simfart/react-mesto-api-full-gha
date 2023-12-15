@@ -1,20 +1,18 @@
-import { useCallback, useState } from 'react';
-import PopupWithForm from './PopupWithForm';
-import { useCardToDelete } from '../hooks';
-import { usePopups } from '../hooks';
-import { useContext, createContext } from 'react'
-
+import { useCallback } from 'react'
+import PopupWithForm from './PopupWithForm'
+import { useDeleteCard } from '../hooks'
+import { usePopups } from '../hooks'
 
 export const DeletePopup = (card) => {
-
-  const { mutate, isLoading } = useCardToDelete()
+  const { mutate, isLoading } = useDeleteCard()
   const { closePopup } = usePopups()
 
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault()
       mutate(card._id)
-    }, [mutate]
+    },
+    [mutate],
   )
 
   const closeHandler = useCallback(() => {
@@ -27,10 +25,9 @@ export const DeletePopup = (card) => {
       isOpen={true}
       onClose={closeHandler}
       popupTitle="Вы уверены?"
-      buttonText={isLoading ? "Удаление..." : "Да"}
+      buttonText={isLoading ? 'Удаление...' : 'Да'}
       onSubmit={handleSubmit}
       isValid={true}
-    >
-    </PopupWithForm>
-  );
+    ></PopupWithForm>
+  )
 }

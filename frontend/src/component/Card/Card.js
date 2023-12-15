@@ -1,9 +1,7 @@
 import { useCallback, useContext, useMemo } from 'react'
 import { CurrentUserContext } from '../../contexts/CurrentUserContext'
 import { usePopups } from '../../hooks'
-import { deleteCard } from '../../api'
-import { useMutation, useQueryClient } from 'react-query'
-import { useCardMutation } from '../../hooks'
+import { useLikeCard } from '../../hooks'
 
 export const Card = ({ card, onCardLike, onCardDelete }) => {
   const currentUser = useContext(CurrentUserContext)
@@ -15,8 +13,10 @@ export const Card = ({ card, onCardLike, onCardDelete }) => {
   const isLiked = card.likes.some(
     (i) => i._id === currentUser._id || i === currentUser._id,
   )
-  const cardLikeButtonClassName = `element__button ${isLiked && 'element__button_active'
-    }`
+
+  const cardLikeButtonClassName = `element__button ${
+    isLiked && 'element__button_active'
+  }`
 
   const { openPopup } = usePopups()
 
@@ -24,31 +24,24 @@ export const Card = ({ card, onCardLike, onCardDelete }) => {
     openPopup('imagePopup', { card })
   }, [openPopup])
 
-  const onDeleteClick = useCallback(
-    () => {
-      openPopup('deletePopup', card)
-    }, [openPopup]
+  const onDeleteClick = useCallback(() => {
+    openPopup('deletePopup', card)
+  }, [openPopup])
+
+  const { mutate } = useLikeCard()
+
+  const onLikeClick = useCallback(
+    (e) => {
+      e.preventDefault()
+      mutate(card._id, isLiked)
+    },
+    [mutate],
   )
-
-  function handleLikeClick() {
-    onCardLike(card)
-  }
-
-  // const { mutate, isLoading } = useCardMutation()
-
-  // const handleDeleteClick = useCallback(
-  //   (e) => {
-  //     e.preventDefault()
-  //     mutate(card._id)
-  //   }, [mutate]
-  // )
 
   const trashButton = useMemo(() => {
     if (!isOwn) return null
 
-    return <button className="element__trash"
-      onClick={onDeleteClick}
-    />
+    return <button className="element__trash" onClick={onDeleteClick} />
   }, [onDeleteClick, isOwn])
 
   return (
@@ -65,7 +58,7 @@ export const Card = ({ card, onCardLike, onCardDelete }) => {
         <div className="element__like">
           <button
             className={cardLikeButtonClassName}
-            onClick={handleLikeClick}
+            onClick={onLikeClick}
             type="button"
           ></button>
           <p className="element__counter">{card.likes.length}</p>
