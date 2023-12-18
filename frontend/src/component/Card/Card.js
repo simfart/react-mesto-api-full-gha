@@ -33,9 +33,12 @@ export const Card = ({ card, onCardLike, onCardDelete }) => {
   const onLikeClick = useCallback(
     (e) => {
       e.preventDefault()
-      mutate(card._id, isLiked)
+      mutate({
+        card: card._id,
+        isLiked,
+      })
     },
-    [mutate],
+    [mutate, isLiked, card._id],
   )
 
   const trashButton = useMemo(() => {
