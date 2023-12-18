@@ -13,7 +13,7 @@ export const useDeleteCard = () => {
   const { mutate, isLoading } = useMutation(deleteCard, {
     onSuccess: () => {
       closePopup()
-      queryClient.invalidateQueries()
+      queryClient.invalidateQueries(['cards'])
     },
   })
   return useMemo(() => ({ mutate, isLoading }), [mutate, isLoading])
