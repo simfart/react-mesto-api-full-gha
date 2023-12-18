@@ -9,7 +9,7 @@ export const useLikeCard = () => {
 
   const { mutate, isLoading } = useMutation(likeCard, {
     onSuccess: () => {
-      queryClient.invalidateQueries()
+      queryClient.invalidateQueries(['cards'])
     },
   })
   return useMemo(() => ({ mutate, isLoading }), [mutate, isLoading])

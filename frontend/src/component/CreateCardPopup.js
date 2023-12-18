@@ -36,7 +36,7 @@ function CreateCardPopup() {
   const { mutate, isLoading } = useMutation(createCard, {
     onSuccess: () => {
       closePopup()
-      queryClient.invalidateQueries()
+      queryClient.invalidateQueries(['cards'])
     },
   })
 
