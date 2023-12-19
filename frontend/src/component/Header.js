@@ -11,9 +11,7 @@ function Header({ adress, buttonClick, buttonText, email }) {
   const { isLoggedIn } = useUserStore()
 
   const closeByEscapeHandler = useCallback((evt) => {
-    if (evt.key === 'Escape') {
-      setNav(false)
-    }
+    if (evt.key === 'Escape') setNav(false)
   }, [])
 
   const clickOverPopupsHandler = useCallback((evt) => {
@@ -26,9 +24,7 @@ function Header({ adress, buttonClick, buttonText, email }) {
     if (nav) {
       // навешиваем только при открытии
       document.addEventListener('keydown', closeByEscapeHandler)
-      setTimeout(() => {
-        document.addEventListener('click', clickOverPopupsHandler)
-      })
+      document.addEventListener('click', clickOverPopupsHandler)
 
       return () => {
         document.removeEventListener('keydown', closeByEscapeHandler)
@@ -51,7 +47,11 @@ function Header({ adress, buttonClick, buttonText, email }) {
             </div>
             <img
               className="header__burger"
-              onClick={() => setNav(!nav)}
+              onClick={(e) => {
+                e.stopPropagation()
+
+                setNav(!nav)
+              }}
               src={nav ? closeIcon : burgerIcon}
               alt="Бургер меню"
             />

@@ -21,10 +21,7 @@ function EditProfilePopup() {
 
   useEffect(() => {
     if (user) {
-      setValues({
-        name: user.name,
-        about: user.about,
-      })
+      setValues(user)
       setErrors({})
       setIsValid(true)
     }
@@ -34,10 +31,8 @@ function EditProfilePopup() {
 
   function handleSubmit(e) {
     e.preventDefault()
-    mutate({
-      name: values.name,
-      about: values.about,
-    })
+
+    mutate(values)
   }
 
   const closeHandler = useCallback(() => {

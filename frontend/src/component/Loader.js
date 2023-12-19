@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { memo } from 'react'
 
-function Loader(isOpen) {
+function Loader() {
   return (
     <div className="popup popup_opened">
       <div className="loader"></div>
     </div>
-  );
+  )
 }
 
-export default Loader;
+export default memo(Loader)

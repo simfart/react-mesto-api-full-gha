@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from 'react'
 
 function PopupWithForm({
   popunName,
@@ -8,19 +8,24 @@ function PopupWithForm({
   isOpen,
   onClose,
   onSubmit,
-  isValid
+  isValid,
 }) {
-
   return (
     <div
-      className={`popup popup_${popunName} ${isOpen ? "popup_opened" : ""}`}
+      className={`popup popup_${popunName} ${isOpen ? 'popup_opened' : ''}`}
       name={`popup_${popunName}`}
     >
       <div className="popup__conteiner popup__conteiner-open">
         <form className="popup__form" onSubmit={onSubmit} noValidate>
           <h2 className="popup__title">{popupTitle}</h2>
           <fieldset className="popup__info">{children}</fieldset>
-          <button className={`popup__button ${isValid ? "" : "popup__button_invalid"}`} type="submit" aria-label="Сохранить">
+          <button
+            className={`popup__button ${
+              isValid ? '' : 'popup__button_invalid'
+            }`}
+            type="submit"
+            aria-label="Сохранить"
+          >
             {buttonText}
           </button>
         </form>
@@ -32,7 +37,7 @@ function PopupWithForm({
         />
       </div>
     </div>
-  );
+  )
 }
 
-export default PopupWithForm;
+export default memo(PopupWithForm)

@@ -5,9 +5,11 @@ import { Profile } from './Profile'
 import { useMutation } from 'react-query'
 import { logout } from '../api'
 import { useUserStore } from '../store'
+import { useUser } from '../hooks'
 
 function Main() {
   const { setIsLoggedIn } = useUserStore()
+  const { data: user } = useUser()
 
   const { mutate } = useMutation(logout, {
     onSuccess: () => {
@@ -23,7 +25,7 @@ function Main() {
         buttonClick={mutate}
         adress={'/singin'}
         buttonText={'Выйти'}
-        // email={email}
+        email={user?.email}
       />
       <main className="content">
         <Profile />

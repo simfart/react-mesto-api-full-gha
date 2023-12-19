@@ -28,9 +28,6 @@ function CreateCardPopup() {
     setValues({})
   }, [closePopup])
 
-  // Зачем надо
-
-  const { data: card } = useRef()
   const queryClient = useQueryClient()
 
   const { mutate, isLoading } = useMutation(createCard, {
@@ -43,12 +40,9 @@ function CreateCardPopup() {
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault()
-      mutate({
-        name: values.name,
-        link: values.link,
-      })
+      mutate(values)
     },
-    [mutate, values.link, values.name],
+    [mutate, values],
   )
 
   return (

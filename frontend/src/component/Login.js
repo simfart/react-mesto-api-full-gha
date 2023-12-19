@@ -26,7 +26,7 @@ function Login() {
 
       setIsLoggedIn(true)
 
-      setValues({})
+      setValues({ email: '', password: '' })
       setErrors({})
       setIsValid(true)
 
@@ -40,7 +40,6 @@ function Login() {
     if (!values.email || !values.password) return
 
     mutate(values)
-    setValues({ email: '', password: '' })
   }
 
   return (

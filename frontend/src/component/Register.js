@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import Header from './Header'
 import { useForm } from '../hooks/useForm'
 import { Link, useNavigate } from 'react-router-dom'
@@ -89,4 +89,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default memo(Register)

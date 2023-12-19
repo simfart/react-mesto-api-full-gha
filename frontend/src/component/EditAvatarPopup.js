@@ -22,6 +22,10 @@ function EditAvatarPopup() {
     onSuccess: () => {
       closePopup()
       queryClient.invalidateQueries(['user'])
+
+      avatarRef.current.value = ''
+      setErrors({})
+      setIsValid(true)
     },
   })
 
@@ -32,16 +36,6 @@ function EditAvatarPopup() {
     },
     [mutate],
   )
-
-  React.useEffect(() => {
-    avatarRef.current.value = ''
-    setErrors({})
-    setIsValid(true)
-  }, [
-    // isOpen,
-    setErrors,
-    setIsValid,
-  ])
 
   return (
     <PopupWithForm

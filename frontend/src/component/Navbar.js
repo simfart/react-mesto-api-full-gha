@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from 'react'
 
 const Navbar = ({ email, adress, buttonClick, buttonText }) => {
   return (
@@ -19,7 +19,7 @@ const Navbar = ({ email, adress, buttonClick, buttonText }) => {
         </li>
       </ul>
     </nav>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default memo(Navbar)
