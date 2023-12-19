@@ -1,14 +1,4 @@
-import axios from 'axios'
-import { apiUrl } from '../constants'
-import { getAccessToken } from '../utils'
+import { api } from './api'
 
-export const getCards = async () => {
-  return await axios
-    .get(`${apiUrl}/cards/`, {
-      headers: {
-        Authorization: `Bearer ${getAccessToken()}`,
-      },
-      withCredentials: true,
-    })
-    .then((res) => res.data)
-}
+export const getCards = async () =>
+  await api.get(`/cards/`).then((res) => res.data)

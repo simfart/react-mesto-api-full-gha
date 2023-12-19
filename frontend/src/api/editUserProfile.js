@@ -1,16 +1,4 @@
-import axios from 'axios'
-import { apiUrl } from '../constants'
-import { getAccessToken } from '../utils'
+import { api } from './api'
 
-export const editUserProfile = async (profile) => {
-  try {
-    return await axios.patch(`${apiUrl}/users/me/`, profile, {
-      headers: {
-        Authorization: `Bearer ${getAccessToken()}`,
-      },
-      withCredentials: true,
-    })
-  } catch (err) {
-    throw err
-  }
-}
+export const editUserProfile = async (profile) =>
+  await api.patch(`/users/me/`, profile)

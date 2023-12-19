@@ -1,19 +1,3 @@
-import axios from 'axios'
-import { apiUrl } from '../constants'
-import { getAccessToken } from '../utils'
+import { api } from './api'
 
-export const deleteCard = async (card) => {
-  try {
-    return await axios.delete(
-      `${apiUrl}/cards/${card}`,
-      {
-        headers: {
-          Authorization: `Bearer ${getAccessToken()}`,
-        },
-        withCredentials: true,
-      },
-    )
-  } catch (err) {
-    throw err
-  }
-}
+export const deleteCard = async (card) => await api.delete(`/cards/${card}`)

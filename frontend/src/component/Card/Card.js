@@ -1,10 +1,9 @@
-import { useCallback, useContext, useMemo } from 'react'
-import { CurrentUserContext } from '../../contexts/CurrentUserContext'
-import { usePopups } from '../../hooks'
+import { useCallback, useMemo } from 'react'
+import { usePopups, useUser } from '../../hooks'
 import { useLikeCard } from '../../hooks'
 
 export const Card = ({ card, onCardLike, onCardDelete }) => {
-  const currentUser = useContext(CurrentUserContext)
+  const { data: currentUser } = useUser()
   const isOwn = useMemo(
     () => card.owner._id === currentUser._id || card.owner === currentUser._id,
     [card, currentUser],
@@ -22,11 +21,11 @@ export const Card = ({ card, onCardLike, onCardDelete }) => {
 
   const onCardClick = useCallback(() => {
     openPopup('imagePopup', { card })
-  }, [openPopup])
+  }, [openPopup, card])
 
   const onDeleteClick = useCallback(() => {
     openPopup('deletePopup', card)
-  }, [openPopup])
+  }, [openPopup, card])
 
   const { mutate } = useLikeCard()
 

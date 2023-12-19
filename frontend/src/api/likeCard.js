@@ -1,6 +1,4 @@
-import axios from 'axios'
-import { apiUrl } from '../constants'
-import { getAccessToken } from '../utils'
+import { api } from './api'
 
 export const toggleCardLike = async ({ card, isLiked }) => {
   if (isLiked) {
@@ -10,24 +8,7 @@ export const toggleCardLike = async ({ card, isLiked }) => {
   }
 }
 
-export const likeCard = async ({ card }) => {
-  return await axios.put(
-    `${apiUrl}/cards/${card}/likes`,
-    { card },
-    {
-      headers: {
-        Authorization: `Bearer ${getAccessToken()}`,
-      },
-      withCredentials: true,
-    },
-  )
-}
+export const likeCard = async ({ card }) =>
+  await api.put(`/cards/${card}/likes`, { card })
 
-const dislikeCard = async ({ card }) => {
-  return await axios.delete(`${apiUrl}/cards/${card}/likes`, {
-    headers: {
-      Authorization: `Bearer ${getAccessToken()}`,
-    },
-    withCredentials: true,
-  })
-}
+const dislikeCard = async ({ card }) => await api.delete(`/cards/${card}/likes`)

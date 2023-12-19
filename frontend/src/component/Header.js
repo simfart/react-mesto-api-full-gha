@@ -1,48 +1,50 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
-import headerLogo from "../images/logo.svg";
-import Navbar from "./Navbar";
-import burgerIcon from "../images/burger.png";
-import closeIcon from "../images/CloseIcon.svg";
+import React, { useState, useEffect, useCallback } from 'react'
+import { Link } from 'react-router-dom'
+import headerLogo from '../images/logo.svg'
+import Navbar from './Navbar'
+import burgerIcon from '../images/burger.png'
+import closeIcon from '../images/CloseIcon.svg'
+import { useUserStore } from '../store'
 
-function Header({ adress, buttonClick, buttonText, email, loggedIn }) {
-  const [nav, setNav] = useState(false);
+function Header({ adress, buttonClick, buttonText, email }) {
+  const [nav, setNav] = useState(false)
+  const { isLoggedIn } = useUserStore()
 
   const closeByEscapeHandler = useCallback((evt) => {
-    if (evt.key === "Escape") {
-      setNav(false);
+    if (evt.key === 'Escape') {
+      setNav(false)
     }
-  }, []);
+  }, [])
 
   const clickOverPopupsHandler = useCallback((evt) => {
-    if (!evt.target.closest(".header__navbar-menu")) {
-      setNav(false);
+    if (!evt.target.closest('.header__navbar-menu')) {
+      setNav(false)
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
     if (nav) {
       // навешиваем только при открытии
-      document.addEventListener("keydown", closeByEscapeHandler);
+      document.addEventListener('keydown', closeByEscapeHandler)
       setTimeout(() => {
-        document.addEventListener("click", clickOverPopupsHandler);
-      });
+        document.addEventListener('click', clickOverPopupsHandler)
+      })
 
       return () => {
-        document.removeEventListener("keydown", closeByEscapeHandler);
-        document.removeEventListener("click", clickOverPopupsHandler);
-      };
+        document.removeEventListener('keydown', closeByEscapeHandler)
+        document.removeEventListener('click', clickOverPopupsHandler)
+      }
     }
-  }, [nav]);
+  }, [nav])
 
   return (
     <header className="header">
-      <div className={`header__navbar ${nav ? "header__navbar_opened" : ""}`}>
+      <div className={`header__navbar ${nav ? 'header__navbar_opened' : ''}`}>
         <Navbar email={email} buttonClick={buttonClick} />
       </div>
       <div className="header__conteiner">
         <img className="header__logo" src={headerLogo} alt="Логотип Место" />
-        {loggedIn ? (
+        {isLoggedIn ? (
           <>
             <div className="header__menu">
               <Navbar email={email} buttonClick={buttonClick} />
@@ -57,7 +59,7 @@ function Header({ adress, buttonClick, buttonText, email, loggedIn }) {
         ) : (
           <div>
             <Link to={adress}>
-              {" "}
+              {' '}
               <button
                 onClick={buttonClick}
                 className="header__link"
@@ -71,7 +73,7 @@ function Header({ adress, buttonClick, buttonText, email, loggedIn }) {
         )}
       </div>
     </header>
-  );
+  )
 }
 
-export default Header;
+export default Header

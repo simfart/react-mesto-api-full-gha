@@ -1,20 +1,3 @@
-import axios from 'axios'
-import { apiUrl } from '../constants'
-import { getAccessToken } from '../utils'
+import { api } from './api'
 
-export const createCard = async (card) => {
-  try {
-    return await axios.post(
-      `${apiUrl}/cards/`, card,
-      {
-        headers: {
-          Authorization: `Bearer ${getAccessToken()}`,
-        },
-        withCredentials: true,
-      },
-    )
-  } catch (err) {
-    throw err
-  }
-}
-
+export const createCard = async (card) => await api.post(`/cards/`, card)

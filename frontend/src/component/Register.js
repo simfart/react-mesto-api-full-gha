@@ -1,9 +1,11 @@
-import React from "react";
-import Header from "./Header";
-import { useForm } from "../hooks/useForm";
-import { Link } from "react-router-dom";
+import React from 'react'
+import Header from './Header'
+import { useForm } from '../hooks/useForm'
+import { Link, useNavigate } from 'react-router-dom'
+import { useMutation } from 'react-query'
+import { register } from '../api'
 
-function Register({ onAddAccount, loggedIn }) {
+const Register = () => {
   const {
     values,
     handleChange,
@@ -12,35 +14,37 @@ function Register({ onAddAccount, loggedIn }) {
     setIsValid,
     errors,
     setErrors,
-  } = useForm({});
+  } = useForm({})
+
+  const navigate = useNavigate()
+
+  const { mutate } = useMutation(register, {
+    onSuccess: () => {
+      setValues({})
+      setErrors({})
+      setIsValid(true)
+
+      navigate('/singin', { replace: true })
+    },
+  })
 
   function handleSubmit(e) {
-    // Запрещаем браузеру переходить по адресу формы
-    e.preventDefault();
-    // Передаём значения управляемых компонентов во внешний обработчик
-    onAddAccount({
-      email: values.email,
-      password: values.password,
-    });
-  }
+    e.preventDefault() // Запрещаем браузеру переходить по адресу формы
 
-  React.useEffect(() => {
-    setValues({});
-    setErrors({});
-    setIsValid(true);
-  }, [setValues, setErrors, setIsValid]);
+    mutate(values) // Передаём значения управляемых компонентов во внешний обработчик
+  }
 
   return (
     <>
-      <Header adress={"/singin"} buttonText={"Войти"} loggedIn={loggedIn} />
+      <Header adress={'/singin'} buttonText={'Войти'} />
       <form className="form-auth" onSubmit={handleSubmit} noValidate>
         <h2 className="popup__title ">Регистрация</h2>
         <fieldset className="form-auth__info">
           <input
-            value={values.email || ""}
+            value={values.email || ''}
             onChange={handleChange}
             className={`form-auth__item ${
-              errors?.email && "form-auth__item_error"
+              errors?.email && 'form-auth__item_error'
             }`}
             type="email"
             name="email"
@@ -49,13 +53,13 @@ function Register({ onAddAccount, loggedIn }) {
             placeholder="Email"
             required
           />
-          <span className="popup__error">{errors.email || ""}</span>
+          <span className="popup__error">{errors.email || ''}</span>
           <input
-            value={values.password || ""}
+            value={values.password || ''}
             onChange={handleChange}
             type="password"
             className={`form-auth__item ${
-              errors?.password && "form-auth__item_error"
+              errors?.password && 'form-auth__item_error'
             }`}
             name="password"
             minLength="8"
@@ -63,11 +67,11 @@ function Register({ onAddAccount, loggedIn }) {
             placeholder="Пароль"
             required
           />
-          <span className="popup__error">{errors.password || ""}</span>
+          <span className="popup__error">{errors.password || ''}</span>
         </fieldset>
         <button
           className={`form-auth__button ${
-            isValid ? "" : "popup__button_invalid"
+            isValid ? '' : 'popup__button_invalid'
           }`}
           type="submit"
           aria-label="Сохранить"
@@ -75,14 +79,14 @@ function Register({ onAddAccount, loggedIn }) {
           Зарегистрироваться
         </button>
         <span className="form-auth__link">
-          Уже зарегистрированы?{" "}
+          Уже зарегистрированы?{' '}
           <Link to="/singin" className="form-auth__sing-in">
             Войти
-          </Link>{" "}
+          </Link>{' '}
         </span>
       </form>
     </>
-  );
+  )
 }
 
-export default Register;
+export default Register

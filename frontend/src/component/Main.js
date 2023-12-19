@@ -1,28 +1,29 @@
-import React, { useCallback } from 'react'
-import { Card } from './Card'
-import { CurrentUserContext } from '../contexts/CurrentUserContext'
+import React from 'react'
 import Header from './Header'
 import { Cards } from './Cards'
-
 import { Profile } from './Profile'
+import { useMutation } from 'react-query'
+import { logout } from '../api'
+import { useUserStore } from '../store'
 
-function Main({
-  onCardClick,
-  onCardDelete,
-  onCardLike,
-  cards,
-  email,
-  signOut,
-  loggedIn,
-}) {
+function Main() {
+  const { setIsLoggedIn } = useUserStore()
+
+  const { mutate } = useMutation(logout, {
+    onSuccess: () => {
+      window.localStorage.removeItem('jwt')
+
+      setIsLoggedIn(false)
+    },
+  })
+
   return (
     <>
       <Header
-        buttonClick={signOut}
+        buttonClick={mutate}
         adress={'/singin'}
         buttonText={'Выйти'}
-        email={email}
-        loggedIn={loggedIn}
+        // email={email}
       />
       <main className="content">
         <Profile />
